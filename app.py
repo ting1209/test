@@ -38,7 +38,7 @@ def handle_message(event):
     template=ImageCarouselTemplate(
         columns=[
             ImageCarouselColumn(
-                image_url='https://example.com/item1.jpg',
+                image_url='https://thumbs.dreamstime.com/z/%E7%B1%B3%E5%92%8C%E9%87%91%E6%9E%AA%E9%B1%BC%E8%89%B2%E6%8B%89-75530860.jpg',
                 action=PostbackTemplateAction(
                     label='飯',
                     text='postback text1',
@@ -46,7 +46,7 @@ def handle_message(event):
                 )
             ),
             ImageCarouselColumn(
-                image_url='https://example.com/item1.jpg',
+                image_url='http://image.tupian114.com/20141117/14260194.jpg.238.jpg',
                 action=PostbackTemplateAction(
                     label='麵',
                     text='麵',
@@ -54,7 +54,7 @@ def handle_message(event):
                 )
             ),
             ImageCarouselColumn(
-                image_url='https://example.com/item1.jpg',
+                image_url='http://image.tupian114.com/20120424/09013375.jpg',
                 action=PostbackTemplateAction(
                     label='鍋',
                     text='鍋',
@@ -62,7 +62,7 @@ def handle_message(event):
                 )
             ),
             ImageCarouselColumn(
-                image_url='https://example.com/item1.jpg',
+                image_url='https://thumbs.dreamstime.com/z/%E4%B8%8E%E9%A5%AE%E6%96%99%E7%9A%84%E4%B8%80%E5%9D%97%E7%8E%BB%E7%92%83-%E5%9C%A8%E4%B8%80%E7%BA%B8%E6%9D%AF%E7%9A%84%E6%9F%A0%E6%AA%AC%E6%B0%B4-%E5%9C%A8%E6%88%8F%E9%99%A2%E7%9A%84%E8%8B%8F%E6%89%93-118454707.jpg',
                 action=PostbackTemplateAction(
                     label='飲料',
                     text='飲料',
@@ -70,7 +70,7 @@ def handle_message(event):
                 )
             ),
             ImageCarouselColumn(
-                image_url='https://example.com/item1.jpg',
+                image_url='https://thumbs.dreamstime.com/z/%E8%A2%AB%E8%AE%BE%E7%BD%AE%E7%9A%84%E6%B0%B4%E5%BD%A9%E7%94%9C%E7%82%B9-121468949.jpg',
                 action=PostbackTemplateAction(
                     label='其他',
                     text='其他',
