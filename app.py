@@ -38,21 +38,45 @@ def handle_message(event):
     template=ImageCarouselTemplate(
         columns=[
             ImageCarouselColumn(
-                image_url='https://example.com/item1.jpg',
+                image_url='https://m1.aboluowang.com/uploadfile/2014/1224/20141224064255787.jpg',
                 action=PostbackTemplateAction(
-                    label='postback1',
+                    label='飯',
                     text='postback text1',
                     data='action=buy&itemid=1'
                 )
             ),
             ImageCarouselColumn(
-                image_url='https://example.com/item2.jpg',
+                image_url='http://pic.pimg.tw/anrine910070/1418824834-2716133969.jpg',
                 action=PostbackTemplateAction(
-                    label='postback2',
-                    text='postback text2',
+                    label='麵',
+                    text='麵',
                     data='action=buy&itemid=2'
                 )
-            )
+            )，
+            ImageCarouselColumn(
+                image_url='https://pic.pimg.tw/haruhii/1484636324-551661854.jpg',
+                action=PostbackTemplateAction(
+                    label='鍋',
+                    text='鍋',
+                    data='action=buy&itemid=1'
+                )
+            ),
+            ImageCarouselColumn(
+                image_url='https://pic.pimg.tw/kaohsiungtoeat/1525876557-3615106453_n.jpg',
+                action=PostbackTemplateAction(
+                    label='飲料',
+                    text='飲料',
+                    data='action=buy&itemid=1'
+                )
+            ),
+            ImageCarouselColumn(
+                image_url='https://pic.pimg.tw/cindy6732/1516363279-922751753.jpg',
+                action=PostbackTemplateAction(
+                    label='其他',
+                    text='其他',
+                    data='action=buy&itemid=1'
+                )
+            ),
         ]
     )
 )
