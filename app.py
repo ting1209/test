@@ -76,7 +76,7 @@ def handle_message(event):
                     text='其他',
                     data='action=buy&itemid=1'
                 )
-            ),
+            )
         ]
     )
 )
