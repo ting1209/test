@@ -52,7 +52,7 @@ def handle_message(event):
                     text='麵',
                     data='action=buy&itemid=2'
                 )
-            )，
+            ),
             ImageCarouselColumn(
                 image_url='https://example.com/item1.jpg',
                 action=PostbackTemplateAction(
