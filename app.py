@@ -18,9 +18,9 @@ from linebot.models import *
 app = Flask(__name__)
 
 # Channel Access Token
-line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIAj3RErrz2rEtt22mDnnTqZOLlqHYCuN6Aw7TMJ6qkS0cmvICHR5ZcgeczP6VbqCaQz9ezdAy/zsJV6nJSWoFntlnzQMTui9yzQdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('03lCKiHH72CQak6lrU9vdhwyu5HUDEeihF4bQIxokPtct6L03QXfkHhvoFZI579Z95i9hdkX6eRbOWDOB+t0XwJMv/D70W7/x3wBX4+wCldtj4WpF7QC2yqClPExW/nrOUZMZJakON6zJsgAuR8N5wdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
-handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
+handler = WebhookHandler('fff9aae6226c58c93a7c5a8001e836f6')
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -42,9 +42,9 @@ def callback():
 def handle_message(event):
     text = event.message.text # 使用者傳的訊息存成變數 text
 
-    if text == 'buttons' or text == '按鈕':
+    if text == 'buttons' or text == '發票':
         buttons_template = ButtonsTemplate(
-            title='My buttons sample', text='Hello, my buttons', actions=[
+            thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg',title='My buttons sample', text='Hello, my buttons', actions=[
                 URIAction(label='Go to line.me', uri='https://line.me'),
                 PostbackAction(label='ping', data='ping'),
                 PostbackAction(label='ping with text', data='ping', text='ping'),
@@ -54,23 +54,23 @@ def handle_message(event):
             alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
     elif text == '吃吃':
-        carousel_template = CarouselTemplate(imageAspectRatio='rectangle',imageSize='contain',columns=[
-            CarouselColumn(text='大門',thumbnailImageUrl = 'https://i.imgur.com/wT9Rjq7.jpg', actions=[
+        carousel_template = CarouselTemplate(columns=[
+            CarouselColumn(text='大門',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
                 MessageAction(label='飯', text='大門_飯'),
                 MessageAction(label='麵', text='大門_麵'),
                 MessageAction(label='其他', text='大門_其他')
             ]),
-            CarouselColumn(text='公館',thumbnailImageUrl = 'https://i.imgur.com/7cdcpMC.jpg', actions=[
+            CarouselColumn(text='公館',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
                 MessageAction(label='飯', text='公館_飯'),
                 MessageAction(label='麵', text='公館_麵'),
                 MessageAction(label='其他', text='公館_其他')
             ]),
-            CarouselColumn(text='溫州',thumbnailImageUrl = 'https://i.imgur.com/7cdcpMC.jpg', actions=[
+            CarouselColumn(text='溫州',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
                 MessageAction(label='飯', text='溫州_飯'),
                 MessageAction(label='麵', text='溫州_麵'),
                 MessageAction(label='其他', text='溫州_其他')
             ]),
-            CarouselColumn(text='後門',thumbnailImageUrl = 'https://i.imgur.com/7cdcpMC.jpg', actions=[
+            CarouselColumn(text='後門',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
                 MessageAction(label='飯', text='後門_飯'),
                 MessageAction(label='麵', text='後門_麵'),
                 MessageAction(label='其他', text='後門_其他')
@@ -93,7 +93,7 @@ def handle_message(event):
         template_message = TemplateSendMessage(
             alt_text='ImageCarousel alt text', template=image_carousel_template)
         line_bot_api.reply_message(event.reply_token, template_message)
-    elif text == 'flex':
+    elif text == 'flex' or text == '推薦':
         bubble = BubbleContainer(
             direction='ltr',
             hero=ImageComponent(
