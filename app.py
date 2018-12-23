@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import errno
+import json
 import os
 import sys
 import tempfile
@@ -54,8 +55,6 @@ def handle_message(event):
             alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
     elif text == '餐廳':        
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text="紀錄成功"))
-        pass
         #GDriveJSON就輸入下載下來Json檔名稱
         #GSpreadSheet是google試算表名稱
         GDriveJSON = 'restaurant-4746adf63ca6.json'
@@ -66,11 +65,13 @@ def handle_message(event):
                 key = SAC.from_json_keyfile_name(GDriveJSON, scope)
                 gc = gspread.authorize(key)
                 worksheet = gc.open(GSpreadSheet).sheet1
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text="紀錄成功"))
+                pass
             except Exception as ex:
                 print('無法連線Google試算表', ex)
                 sys.exit(1)
             
-            print(worksheet[0])
+            
             
                       
     elif text == '吃吃':
