@@ -69,12 +69,10 @@ def handle_message(event):
             except Exception as ex:
                 print('無法連線Google試算表', ex)
                 sys.exit(1)
-            textt=""
-            textt+=event.message.text
-            if textt!="":
-                worksheet.append_row((datetime.datetime.now(), textt))
-                print('新增一列資料到試算表' ,GSpreadSheet)
-                return textt          
+            
+            print(worksheet[0])
+            
+                      
     elif text == '吃吃':
         carousel_template = CarouselTemplate(columns=[
             CarouselColumn(text='大門',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
