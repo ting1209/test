@@ -23,6 +23,8 @@ line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIA
 # Channel Secret
 handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
 
+line_bot_api.push_message(to, TextSendMessage(text='找找今天吃什麼吧!'))
+
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -42,7 +44,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage) # 處理文字訊息（message = TextMessage），圖片
 def handle_message(event):
     text = event.message.text # 使用者傳的訊息存成變數 text
-
+    
     if text == 'buttons' or text == '發票':
         buttons_template = ButtonsTemplate(
             thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg',title='My buttons sample', text='Hello, my buttons', actions=[
@@ -53,27 +55,8 @@ def handle_message(event):
             ])
         template_message = TemplateSendMessage(
             alt_text='Buttons alt text', template=buttons_template)
-        line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
-    elif text == '餐廳':        
-        #GDriveJSON就輸入下載下來Json檔名稱
-        #GSpreadSheet是google試算表名稱
-        GDriveJSON = 'restaurant-4746adf63ca6.json'
-        GSpreadSheet = 'restaurant'
-        while True:
-            try:
-                scope = ['https://docs.google.com/spreadsheets/d/1FpkO2iomY-z1VaBhsAjhIBkter59KPd77KOapVUhIdQ/edit#gid=0']
-                key = SAC.from_json_keyfile_name(GDriveJSON, scope)
-                gc = gspread.authorize(key)
-                worksheet = gc.open(GSpreadSheet).sheet1
-                line_bot_api.reply_message(event.reply_token,TextSendMessage(text="紀錄成功"))
-                pass
-            except Exception as ex:
-                print('無法連線Google試算表', ex)
-                sys.exit(1)
-            
-            
-            
-                      
+        line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'  
+        line_bot_api.push_message(to, TextSendMessage(text='Hello World!'))
     elif text == '吃吃':
         carousel_template = CarouselTemplate(columns=[
             CarouselColumn(text='大門',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
