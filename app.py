@@ -25,11 +25,6 @@ line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIA
 # Channel Secret
 handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
 
-###
-def job():
-    print("找找看今天吃什麼吧")
-
-###
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -62,7 +57,6 @@ def handle_message(event):
         template_message = TemplateSendMessage(
             alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'  
-		schedule.every(1).minutes.do(job)
     elif text == '吃吃':
         carousel_template = CarouselTemplate(columns=[
             CarouselColumn(text='大門',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
@@ -217,5 +211,4 @@ def handle_message(event):
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-	schedule.run_pending()
-    time.sleep(1)
+
