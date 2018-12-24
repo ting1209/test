@@ -25,19 +25,17 @@ line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIA
 # Channel Secret
 handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
 
+###
 def job():
     print("找找看今天吃什麼吧")
 	
-while True:
-	schedule.every().day.at("12:00").do(job)
-	schedule.every().day.at("22:02").do(job)
-	schedule.every(1).minutes.do(job)
+
+schedule.every().day.at("12:00").do(job)
+schedule.every().day.at("22:02").do(job)
+schedule.every(1).minutes.do(job)
 	
-while True:
-    schedule.run_pending()
-    time.sleep(1)
 
-
+###
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -224,3 +222,5 @@ def handle_message(event):
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
+	schedule.run_pending()
+    time.sleep(1)
