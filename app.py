@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
-import schedule
-import time
+
 import errno
 import json
 import os
