@@ -20,12 +20,17 @@ from linebot.models import *
 
 app = Flask(__name__)
 
+# Channel Access Token
+line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIAj3RErrz2rEtt22mDnnTqZOLlqHYCuN6Aw7TMJ6qkS0cmvICHR5ZcgeczP6VbqCaQz9ezdAy/zsJV6nJSWoFntlnzQMTui9yzQdB04t89/1O/w1cDnyilFU=')
+# Channel Secret
+handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
+
 #push
 def noti(message):
 	line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text =message))
 	return True	
 	
-schedule.every().day.at("19:29").do(noti('來找找今天吃什麼鴨^^'))
+schedule.every().day.at("19:45").do(noti('來找找今天吃什麼鴨^^'))
 	
 while True:
 	schedule.run_pending()
@@ -59,11 +64,6 @@ def rest_selector(reply_text):
         output += '無\n'
     return output
 
-
-# Channel Access Token
-line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIAj3RErrz2rEtt22mDnnTqZOLlqHYCuN6Aw7TMJ6qkS0cmvICHR5ZcgeczP6VbqCaQz9ezdAy/zsJV6nJSWoFntlnzQMTui9yzQdB04t89/1O/w1cDnyilFU=')
-# Channel Secret
-handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
 
 	
 # 監聽所有來自 /callback 的 Post Request
