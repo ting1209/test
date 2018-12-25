@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-
 import pandas as pd
 import numpy as np
 import errno
@@ -9,7 +8,6 @@ import tempfile
 from argparse import ArgumentParser
 from flask import Flask, request, abort
 import random
-
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -20,12 +18,6 @@ from linebot.models import *
 
 app = Flask(__name__)
 
-# Channel Access Token
-line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIAj3RErrz2rEtt22mDnnTqZOLlqHYCuN6Aw7TMJ6qkS0cmvICHR5ZcgeczP6VbqCaQz9ezdAy/zsJV6nJSWoFntlnzQMTui9yzQdB04t89/1O/w1cDnyilFU=')
-# Channel Secret
-handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
-
-	
 #
 all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
 def rest_selector(reply_text):
@@ -54,8 +46,12 @@ def rest_selector(reply_text):
         output += '無\n'
     return output
 
+# Channel Access Token
+line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIAj3RErrz2rEtt22mDnnTqZOLlqHYCuN6Aw7TMJ6qkS0cmvICHR5ZcgeczP6VbqCaQz9ezdAy/zsJV6nJSWoFntlnzQMTui9yzQdB04t89/1O/w1cDnyilFU=')
+# Channel Secret
+handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
 
-
+	
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -72,13 +68,13 @@ def callback():
     return 'OK'
 
 
-@handler.add(MessageEvent, message=TextMessage) # 處理文字訊息（message = TextMessage），圖片
+@handler.add(MessageEvent, message=TextMessage) # 處理文字訊息（message = TextMessage）
 def handle_message(event):
     text = event.message.text # 使用者傳的訊息存成變數 text
-    
-    if text == 'buttons' or text == '發票':
+
+    if  text == '發票':
         buttons_template = ButtonsTemplate(
-            thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg',title='My buttons sample', text='Hello, my buttons', actions=[
+            thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg',title='My buttons sample', text='哈', actions=[
                 URIAction(label='Go to line.me', uri='https://line.me'),
                 PostbackAction(label='ping', data='ping'),
                 PostbackAction(label='ping with text', data='ping', text='ping'),
@@ -86,7 +82,10 @@ def handle_message(event):
             ])
         template_message = TemplateSendMessage(
             alt_text='Buttons alt text', template=buttons_template)
-        line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'  
+        line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
+    elif '_' in text:
+        message = TextSendMessage(text=rest_selector(text))
+        line_bot_api.reply_message(event.reply_token, message)
     elif text == '吃吃':
         carousel_template = CarouselTemplate(columns=[
             CarouselColumn(text='大門',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
@@ -99,15 +98,20 @@ def handle_message(event):
                 MessageAction(label='麵', text='公館_麵'),
                 MessageAction(label='其他', text='公館_其他')
             ]),
-            CarouselColumn(text='溫州',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
-                MessageAction(label='飯', text='溫州_飯'),
-                MessageAction(label='麵', text='溫州_麵'),
-                MessageAction(label='其他', text='溫州_其他')
+            CarouselColumn(text='溫州街',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
+                MessageAction(label='飯', text='溫州街_飯'),
+                MessageAction(label='麵', text='溫州街_麵'),
+                MessageAction(label='其他', text='溫州街_其他')
             ]),
-            CarouselColumn(text='後門',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
-                MessageAction(label='飯', text='後門_飯'),
-                MessageAction(label='麵', text='後門_麵'),
-                MessageAction(label='其他', text='後門_其他')
+            CarouselColumn(text='118巷',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
+                MessageAction(label='飯', text='118巷_飯'),
+                MessageAction(label='麵', text='118巷_麵'),
+                MessageAction(label='其他', text='118巷_其他')
+            ]),
+            CarouselColumn(text='校內',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
+                MessageAction(label='飯', text='校內_飯'),
+                MessageAction(label='麵', text='校內_麵'),
+                MessageAction(label='其他', text='校內_其他')
             ]),
         ])
         template_message = TemplateSendMessage(
@@ -232,13 +236,16 @@ def handle_message(event):
             event.reply_token,
             message
         )
+        message = FlexSendMessage(alt_text="hello", contents=bubble)
+        line_bot_api.reply_message(
+            event.reply_token,
+            message
+        )
     else:
         message = TextSendMessage(text=event.message.text)
         line_bot_api.reply_message(event.reply_token, message)
 
 
-
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-
