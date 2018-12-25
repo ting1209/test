@@ -248,16 +248,6 @@ def handle_message(event):
         message = TextSendMessage(text=event.message.text)
         line_bot_api.reply_message(event.reply_token, message)
 
-#push
-def noti(message):
-	line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text =message))
-	return True	
-	
-schedule.every().day.at("19:45").do(noti('來找找今天吃什麼鴨^^'))
-	
-while True:
-	schedule.run_pending()
-	time.sleep(1)
 
 
 if __name__ == "__main__":
