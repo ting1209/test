@@ -2,13 +2,15 @@ from __future__ import unicode_literals
 
 import schedule
 import time
+import pandas as pd
+import numpy as np
 import errno
-import json
 import os
 import sys
 import tempfile
 from argparse import ArgumentParser
 from flask import Flask, request, abort
+import random
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -33,6 +35,34 @@ schedule.every().day.at("17:45").do(noti('來找找今天吃什麼鴨^^'))
 	
 while True:
 	schedule.run_pending()
+	
+#
+all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
+def rest_selector(reply_text):
+    res_loc, res_type = reply_text.split('_')
+    potential_200_low = all_restaurant['restaurant'][(all_restaurant.type2 == res_type) & (all_restaurant.loc_type == res_loc) & (all_restaurant.price <= 200)].tolist()
+    potential_200_up = all_restaurant['restaurant'][(all_restaurant.type2 == res_type) & (all_restaurant.loc_type == res_loc) & (all_restaurant.price >= 200)].tolist()
+    output = '200以下:\n'
+    if len(potential_200_low) > 2:
+        for x in np.random.choice(len(potential_200_low),2,replace=False).tolist():
+            output = output + potential_200_low[x] + '\n'
+
+    elif len(potential_200_low) > 0:
+        for i in potential_200_low:
+            output += i+'\n'
+    else:
+        output += '無\n'
+
+    output += '200以上:\n'
+    if len(potential_200_up) > 2:
+        for y in np.random.choice(len(potential_200_up),2,replace=False).tolist():
+            output = output + potential_200_up[y] + '\n'
+    elif len(potential_200_up) > 0:
+        for j in potential_200_up:
+            output += j+'\n'
+    else:
+        output += '無\n'
+    return output
 
 
 
