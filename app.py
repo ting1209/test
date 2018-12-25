@@ -27,13 +27,7 @@ handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
 
 
 def job():
-	message = '找找看今天吃什麼吧!'
-	return message
-	
-
-while True:
-	schedule.every().seconds.do(job)
-	
+	schedule.every(10).seconds.do(line_bot_api.push_message(to, TextSendMessage(text='Hello World!')))
 	
 
 
