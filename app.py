@@ -246,7 +246,7 @@ def handle_message(event):
             event.reply_token,
             message
         )
-    else:
+    elif text == 'hi':
         text_message = TextSendMessage(text='Hello, world', 
 			quick_reply=QuickReply(
 			items=[QuickReplyButton(action=MessageAction(label="label", text="text"))]
