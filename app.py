@@ -251,7 +251,10 @@ def handle_message(event):
                                quick_reply=QuickReply(items=[
                                    QuickReplyButton(action=MessageAction(label="label", text="text"))
                                ]))
-
+		line_bot_api.reply_message(
+            event.reply_token,
+            text_message
+        )
 
 
 if __name__ == "__main__":
