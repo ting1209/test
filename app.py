@@ -29,9 +29,9 @@ handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
 #push
 def noti():
 	line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text =message))
-	return True	
+	return schedule.CancelJob	
 	
-schedule.every().day.at("20:36").do(noti('來找找今天吃什麼鴨^^')_that_executes_once)
+schedule.every().day.at("20:39").do(noti('來找找今天吃什麼鴨^^'))
 	
 
 #
