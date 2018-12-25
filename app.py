@@ -30,11 +30,6 @@ def job():
 	message = '找找看今天吃什麼吧!'
 	line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text=message))
 	
-schedule.every(1).minutes.do(job)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
 
 
 # 監聽所有來自 /callback 的 Post Request
@@ -68,6 +63,11 @@ def handle_message(event):
         template_message = TemplateSendMessage(
             alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'  
+	elif text == '':
+		schedule.every(1).seconds.do(job)
+		while True:
+			schedule.run_pending()
+			time.sleep(1)
     elif text == '吃吃':
         carousel_template = CarouselTemplate(columns=[
             CarouselColumn(text='大門',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
