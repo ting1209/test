@@ -28,13 +28,11 @@ handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
 
 #push
 def noti():
-	return '來找找今天吃什麼鴨^^'
+	line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text =message))
+	return True	
 	
-schedule.every().day.at("20:19").do(noti)
+schedule.every().day.at("20:08").do(noti('來找找今天吃什麼鴨^^'))
 	
-while 1:
-	schedule.run_pending()
-	time.sleep(1)
 
 #
 all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
@@ -260,7 +258,9 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, message)
 
 
-
-if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+while True:
+	schedule.run_pending()
+	time.sleep(1)
+	if __name__ == "__main__":
+		port = int(os.environ.get('PORT', 5000))
+		app.run(host='0.0.0.0', port=port)
