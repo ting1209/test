@@ -247,11 +247,12 @@ def handle_message(event):
             message
         )
     else:
-        text_message = TextSendMessage(text='Hello, world',
-                               quick_reply=QuickReply(items=[
-                                   QuickReplyButton(action=MessageAction(label="label", text="text"))
-                               ]))
-        line_bot_api.reply_message(event.reply_token, message)
+        text_message = TextSendMessage(text='Hello, world', 
+			quick_reply=QuickReply(
+			items=[QuickReplyButton(action=MessageAction(label="label", text="text"))]
+			))
+		
+        
 
 
 
