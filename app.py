@@ -30,7 +30,7 @@ handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
 def noti():
 	return '來找找今天吃什麼鴨^^'
 	
-schedule.every().day.at("20:17").do(noti)
+schedule.every().day.at("20:19").do(noti)
 	
 while 1:
 	schedule.run_pending()
