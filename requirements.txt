@@ -1,3 +1,5 @@
 line-bot-sdk
 flask
 schedule
+numpy
+pandas
