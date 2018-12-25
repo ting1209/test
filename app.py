@@ -31,7 +31,7 @@ def noti(message):
 	line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text =message))
 	return True	
 	
-schedule.every().day.at("17:45").do(noti('來找找今天吃什麼鴨^^'))
+schedule.every().day.at("20:10").do(noti('來找找今天吃什麼鴨^^'))
 	
 while True:
 	schedule.run_pending()
