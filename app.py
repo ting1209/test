@@ -31,7 +31,7 @@ def noti():
 	line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text =message))
 	return True	
 	
-schedule.every().day.at("20:30").do(noti('來找找今天吃什麼鴨^^')_that_execute_once)
+schedule.every().day.at("20:36").do(noti('來找找今天吃什麼鴨^^')_that_executes_once)
 	
 
 #
