@@ -29,7 +29,7 @@ def noti(message):
 	line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text =message))
 	return True	
 	
-schedule.every().seconds.do(noti('hi'))
+schedule.every().day.at("17:42").do(job)
 	
 while True:
 	schedule.run_pending()
