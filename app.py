@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
-import schedule
-import time
+
 import errno
 import json
 import os
@@ -24,10 +23,6 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIAj3RErrz2rEtt22mDnnTqZOLlqHYCuN6Aw7TMJ6qkS0cmvICHR5ZcgeczP6VbqCaQz9ezdAy/zsJV6nJSWoFntlnzQMTui9yzQdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
 handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
-
-
-def job():
-	schedule.every(10).seconds.do(line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text='Hello World!')))
 	
 
 
@@ -215,7 +210,5 @@ def handle_message(event):
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
-	schedule.run_pending()
-	time.sleep(1)
     app.run(host='0.0.0.0', port=port)
 
