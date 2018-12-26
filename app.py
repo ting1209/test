@@ -29,7 +29,7 @@ def job():
 	line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text = '今天吃什麼鴨'))
 	return True
 	
-schedule.every().day.at('09:35').do(job)
+schedule.every().day.at('09:40').do(job)
 	
 all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
 def rest_selector(reply_text):
@@ -255,9 +255,9 @@ def handle_message(event):
 
 
 if __name__ == "__main__":
-	port = int(os.environ.get('PORT', 5000))
-	app.run(host='0.0.0.0', port=port)
 	while True:
+		port = int(os.environ.get('PORT', 5000))
+		app.run(host='0.0.0.0', port=port)
 		schedule.run_pending()
 		time.sleep(1)
 	
