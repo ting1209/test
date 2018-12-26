@@ -243,7 +243,15 @@ def handle_message(event):
             message
         )
     else:
-        line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text = '今天吃什麼鴨'))
+		text_message = TextSendMessage(
+				text='Hello, world',
+				quick_reply=QuickReply(
+				items=[QuickReplyButton(action=MessageAction(label="label", text="text"))])
+		)
+		line_bot_api.reply_message(
+			event.reply_token,
+			text_message
+		)	
 
 
 if __name__ == "__main__":
