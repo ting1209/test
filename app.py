@@ -78,9 +78,21 @@ def rest_con(reply_text):
                 layout='vertical',
                 contents=[
                     # title
-                    TextComponent(text=res_name, weight='bold', size='xl'),
+                    TextComponent(text='Brown Cafe', weight='bold', size='xl'),
                     # review
-       
+                    BoxComponent(
+                        layout='baseline',
+                        margin='md',
+                        contents=[
+                            IconComponent(size='sm', url='https://example.com/gold_star.png'),
+                            IconComponent(size='sm', url='https://example.com/grey_star.png'),
+                            IconComponent(size='sm', url='https://example.com/gold_star.png'),
+                            IconComponent(size='sm', url='https://example.com/gold_star.png'),
+                            IconComponent(size='sm', url='https://example.com/grey_star.png'),
+                            TextComponent(text='4.0', size='sm', color='#999999', margin='md',
+                                          flex=0)
+                        ]
+                    ),
                     # info
                     BoxComponent(
                         layout='vertical',
@@ -98,7 +110,7 @@ def rest_con(reply_text):
                                         flex=1
                                     ),
                                     TextComponent(
-                                        text=location_res,
+                                        text='Shinjuku, Tokyo',
                                         wrap=True,
                                         color='#666666',
                                         size='sm',
@@ -117,7 +129,7 @@ def rest_con(reply_text):
                                         flex=1
                                     ),
                                     TextComponent(
-                                        text=open_res,
+                                        text="10:00 - 23:00",
                                         wrap=True,
                                         color='#666666',
                                         size='sm',
@@ -147,13 +159,13 @@ def rest_con(reply_text):
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=URIAction(label='Menu', uri= menu_res)
+                        action=URIAction(label='WEBSITE', uri="https://example.com")
                     )
                 ]
             ),
         )
         message = FlexSendMessage(alt_text="hello", contents=bubble)
-		message = FlexSendMessage(alt_text="hello", contents=bubble)
+        message = FlexSendMessage(alt_text="hello", contents=bubble)
 
     return message
 
