@@ -64,8 +64,11 @@ def rest_con(reply_text):
     menu_res = all_restaurant['menu pic'][(all_restaurant.restaurant == res_name)].tolist()
     open_res = all_restaurant['open hour'][(all_restaurant.restaurant == res_name)].tolist()
     location_res = all_restaurant['location'][(all_restaurant.restaurant == res_name)].tolist()
+	output = ''
+	for i in menu_res:
+		output += i
 
-    return menu_res
+    return output
 
 # Channel Access Token
 line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIAj3RErrz2rEtt22mDnnTqZOLlqHYCuN6Aw7TMJ6qkS0cmvICHR5ZcgeczP6VbqCaQz9ezdAy/zsJV6nJSWoFntlnzQMTui9yzQdB04t89/1O/w1cDnyilFU=')
