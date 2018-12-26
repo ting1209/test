@@ -153,6 +153,7 @@ def rest_con(reply_text):
             ),
         )
         message = FlexSendMessage(alt_text="hello", contents=bubble)
+		message = FlexSendMessage(alt_text="hello", contents=bubble)
 
     return message
 
