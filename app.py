@@ -35,7 +35,7 @@ def rest_selector(reply_text):
         action_150_low.append(MessageAction(label='試試別的',text='吃吃'))
     else:
         for i in potential_150_low:
-            action_150_low.append(MessageAction(label=i,text='吃/'+i))
+            action_150_low.append(MessageAction(label=i,text='吃*'+i))
     if len(action_150_low) < 3:
         n = 3 - len(action_150_low)
         action_150_low.extend([MessageAction(label='--',text='吃吃')] * n)
@@ -45,7 +45,7 @@ def rest_selector(reply_text):
         action_150_up.append(MessageAction(label='試試別的',text='吃吃'))
     else:
         for j in potential_150_up:
-            action_150_up.append(MessageAction(label=j,text='吃/'+j))
+            action_150_up.append(MessageAction(label=j,text='吃*'+j))
     if len(action_150_up) < 3:
         n = 3 - len(action_150_up)
         action_150_up.extend([MessageAction(label='--',text='吃吃')] * n)
@@ -60,7 +60,7 @@ def rest_selector(reply_text):
     return template_message
 	
 def rest_con(reply_text):
-    res_eat, res_name = reply_text.split('/')
+    res_eat, res_name = reply_text.split('*')
     menu_res = all_restaurant['menu pic'][(all_restaurant.restaurant == res_name)]
     open_res = all_restaurant['open hour'][(all_restaurant.restaurant == res_name)]
     location_res = all_restaurant['location'][(all_restaurant.restaurant == res_name)]
@@ -107,7 +107,7 @@ def handle_message(event):
     elif '_' in text:
         message = rest_selector(text)
         line_bot_api.reply_message(event.reply_token, message)
-    elif '/' in text:
+    elif '*' in text:
         message = rest_con(text)
         line_bot_api.reply_message(event.reply_token, message)
     elif text == '吃吃':
