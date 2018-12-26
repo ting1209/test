@@ -24,7 +24,7 @@ line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIA
 handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
 
 
-def replylist():
+def replylist(text):
 	list = ['找找看今天吃什麼鴨^^','找朋友一起去吃飯吧','吃完飯記得記帳喔','你餓了嗎?']
 	output = ''
 	for x in np.random.choice(len(list),2,replace=False).tolist():
@@ -250,7 +250,7 @@ def handle_message(event):
             message
         )
     else:
-		message = TextSendMessage(text=replylist())
+		message = TextSendMessage(text=replylist(text))
 		line_bot_api.reply_message(event.reply_token, message)
 
 
