@@ -61,9 +61,9 @@ def rest_selector(reply_text):
 	
 def rest_con(reply_text):
     res_eat, res_name = reply_text.split('@')
-    res_location = all_restaurant['location'][all_restaurant.restaurant == res_name]
-    res_menu = 	all_restaurant['menu pic'][all_restaurant.restaurant == res_name]
-    res_open = all_restaurant['open hour'][all_restaurant.restaurant == res_name]
+    res_location = all_restaurant['location'][all_restaurant.restaurant == res_name].tolist()
+    res_menu = 	all_restaurant['menu pic'][all_restaurant.restaurant == res_name].tolist()
+    res_open = all_restaurant['open hour'][all_restaurant.restaurant == res_name].tolist()
 	
     bubble = BubbleContainer(
             direction='ltr',
@@ -78,7 +78,7 @@ def rest_con(reply_text):
                 layout='vertical',
                 contents=[
                     # title
-                    TextComponent(text=res_name, weight='bold', size='xl'),
+                    TextComponent(text=res_name[0], weight='bold', size='xl'),
                     # review
                     # info
                     BoxComponent(
@@ -116,7 +116,7 @@ def rest_con(reply_text):
                                         flex=1
                                     ),
                                     TextComponent(
-                                        text=res_open,
+                                        text=res_open[0],
                                         wrap=True,
                                         color='#666666',
                                         size='sm',
@@ -146,7 +146,7 @@ def rest_con(reply_text):
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=URIAction(label='Menu', uri=res_menu)
+                        action=URIAction(label='Menu', uri=res_menu[0])
                     )
                 ]
             ),
