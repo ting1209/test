@@ -61,9 +61,6 @@ def rest_selector(reply_text):
 	
 def rest_con(reply_text):
     res_eat, res_name = reply_text.split('*')
-    menu_res = all_restaurant['menu pic'][(all_restaurant.restaurant == res_name)]
-    open_res = all_restaurant['open hour'][(all_restaurant.restaurant == res_name)]
-    location_res = all_restaurant['location'][(all_restaurant.restaurant == res_name)]
 	
     return res_name
 
