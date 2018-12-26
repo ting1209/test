@@ -97,7 +97,7 @@ def rest_con(reply_text):
                                         flex=1
                                     ),
                                     TextComponent(
-                                        text=res_loc,
+                                        text=res_location,
                                         wrap=True,
                                         color='#666666',
                                         size='sm',
