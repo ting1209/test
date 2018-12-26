@@ -61,7 +61,7 @@ def rest_selector(reply_text):
 	
 def rest_con(reply_text):
     res_eat, res_name = reply_text.split('*')
-	
+    message = TextSendMessage(text=res_name)
     return res_name
 
 # Channel Access Token
