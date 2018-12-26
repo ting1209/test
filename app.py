@@ -107,7 +107,7 @@ def handle_message(event):
     elif '_' in text:
         message = rest_selector(text)
         line_bot_api.reply_message(event.reply_token, message)
-    elif '@' in text:
+    elif '/' in text:
         message = rest_con(text)
         line_bot_api.reply_message(event.reply_token, message)
     elif text == '吃吃':
