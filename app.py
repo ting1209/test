@@ -61,15 +61,11 @@ def rest_selector(reply_text):
 	
 def rest_con(reply_text):
     res_eat, res_name = reply_text.split('@')
-    res_menu = all_restaurant['menu pic'][all_restaurant.restaurant == res_name].tolist()
-    res_location = all_restaurant['location'][all_restaurant.restaurant == res_name].tolist()
+    res_location = all_restaurant['location'][all_restaurant.restaurant == res_name]
 	
-	output = ''
-	for i in res_menu:
-		output += i
-	
-	message = TextSendMessage(text=output)
-	return message
+    message = TextSendMessage(text=res_location)
+    return message
+
         
 	
 	
