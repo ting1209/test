@@ -23,13 +23,6 @@ line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIA
 # Channel Secret
 handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
 
-
-def replylist(text):
-	list = ['找找看今天吃什麼鴨^^','找朋友一起去吃飯吧','吃完飯記得記帳喔','你餓了嗎?']
-	output = ''
-	for x in np.random.choice(len(list),2,replace=False).tolist():
-		output = output + list[x]
-	return output
 	
 all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
 def rest_selector(reply_text):
@@ -249,8 +242,12 @@ def handle_message(event):
             event.reply_token,
             message
         )
-    else:
-		message = TextSendMessage(text=replylist(text))
+    else:	
+		list = ['找找看今天吃什麼鴨^^','找朋友一起去吃飯吧','吃完飯記得記帳喔','你餓了嗎?']
+		output = ''
+		for x in np.random.choice(len(list),2,replace=False).tolist():
+			output = output + list[x]
+		message = TextSendMessage(text=output)
 		line_bot_api.reply_message(event.reply_token, message)
 
 
