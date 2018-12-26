@@ -35,7 +35,7 @@ def rest_selector(reply_text):
         action_150_low.append(MessageAction(label='試試別的',text='吃吃'))
     else:
         for i in potential_150_low:
-            action_150_low.append(MessageAction(label=i,text='吃@'+i))
+            action_150_low.append(MessageAction(label=i,text='吃/'+i))
     if len(action_150_low) < 3:
         n = 3 - len(action_150_low)
         action_150_low.extend([MessageAction(label='--',text='吃吃')] * n)
