@@ -247,8 +247,7 @@ def handle_message(event):
 		output = ''
 		for x in np.random.choice(len(list),2,replace=False).tolist():
 			output = output + list[x]
-		message = TextSendMessage(text=output)
-		line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', message)
+		line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', output)
 
 
 if __name__ == "__main__":
