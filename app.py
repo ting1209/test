@@ -61,8 +61,14 @@ def rest_selector(reply_text):
 	
 def rest_con(reply_text):
     res_eat, res_name = reply_text.split('@')
-    message = TextSendMessage(text=res_name)
-    return message
+    res_menu = all_restaurant['menu pic'][all_restaurant.restaurant == res_name]
+    res_location = all_restaurant['location'][all_restaurant.restaurant == res_name]
+	
+	message = TextSendMessage(text=res_menu)
+	return message
+        
+	
+	
 # Channel Access Token
 line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIAj3RErrz2rEtt22mDnnTqZOLlqHYCuN6Aw7TMJ6qkS0cmvICHR5ZcgeczP6VbqCaQz9ezdAy/zsJV6nJSWoFntlnzQMTui9yzQdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
