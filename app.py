@@ -78,7 +78,7 @@ def rest_con(reply_text):
                 layout='vertical',
                 contents=[
                     # title
-                    TextComponent(text=res_name[0], weight='bold', size='xl'),
+                    TextComponent(text=res_name, weight='bold', size='xl'),
                     # review
                     # info
                     BoxComponent(
@@ -97,7 +97,7 @@ def rest_con(reply_text):
                                         flex=1
                                     ),
                                     TextComponent(
-                                        text=res_location,
+                                        text=res_location[0],
                                         wrap=True,
                                         color='#666666',
                                         size='sm',
