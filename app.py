@@ -22,8 +22,6 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIAj3RErrz2rEtt22mDnnTqZOLlqHYCuN6Aw7TMJ6qkS0cmvICHR5ZcgeczP6VbqCaQz9ezdAy/zsJV6nJSWoFntlnzQMTui9yzQdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
 handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
-
-line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text = '今天吃什麼鴨'))
 	
 	
 all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
@@ -245,8 +243,7 @@ def handle_message(event):
             message
         )
     else:
-        message = TextSendMessage(text=event.message.text)
-        line_bot_api.reply_message(event.reply_token, message)
+        line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', TextSendMessage(text = '今天吃什麼鴨'))
 
 
 if __name__ == "__main__":
