@@ -243,11 +243,17 @@ def handle_message(event):
             message
         )
     else:	
-		list = ['找找看今天吃什麼鴨^^','找朋友一起去吃飯吧','吃完飯記得記帳喔','你餓了嗎?']
-		output = ''
-		for x in np.random.choice(len(list),2,replace=False).tolist():
-			output = output + list[x]
-		line_bot_api.push_message('Ubd3667a82df0a6c42366c6d3fa104def', output)
+		location_message = LocationSendMessage(
+		title='my location',
+		address='Tokyo',
+		latitude=35.65910807942215,
+		longitude=139.70372892916203
+		)
+		line_bot_api.reply_message(
+            event.reply_token,
+            location_message
+        )
+		
 
 
 if __name__ == "__main__":
