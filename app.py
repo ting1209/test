@@ -58,6 +58,103 @@ def rest_selector(reply_text):
         alt_text='Carousel alt text', template=carousel_template)
 
     return template_message
+	
+def rest_con(reply_text):
+    res_eat, res_name = reply_text.split('@')
+    menu_res = all_restaurant['menu pic'][(all_restaurant.restaurant == res_name)]
+	open_res = all_restaurant['open hour'][(all_restaurant.restaurant == res_name)]
+    location_res = all_restaurant['location'][(all_restaurant.restaurant == res_name)]
+    
+    bubble = BubbleContainer(
+            direction='ltr',
+            hero=ImageComponent(
+                url='https://i.imgur.com/wT9Rjq7.jpg',
+                size='full',
+                aspect_ratio='20:13',
+                aspect_mode='cover',
+                action=URIAction(uri='http://example.com', label='label')
+            ),
+            body=BoxComponent(
+                layout='vertical',
+                contents=[
+                    # title
+                    TextComponent(text=res_name, weight='bold', size='xl'),
+                    # review
+       
+                    # info
+                    BoxComponent(
+                        layout='vertical',
+                        margin='lg',
+                        spacing='sm',
+                        contents=[
+                            BoxComponent(
+                                layout='baseline',
+                                spacing='sm',
+                                contents=[
+                                    TextComponent(
+                                        text='Place',
+                                        color='#aaaaaa',
+                                        size='sm',
+                                        flex=1
+                                    ),
+                                    TextComponent(
+                                        text=location_res,
+                                        wrap=True,
+                                        color='#666666',
+                                        size='sm',
+                                        flex=5
+                                    )
+                                ],
+                            ),
+                            BoxComponent(
+                                layout='baseline',
+                                spacing='sm',
+                                contents=[
+                                    TextComponent(
+                                        text='Time',
+                                        color='#aaaaaa',
+                                        size='sm',
+                                        flex=1
+                                    ),
+                                    TextComponent(
+                                        text=open_res,
+                                        wrap=True,
+                                        color='#666666',
+                                        size='sm',
+                                        flex=5,
+                                    ),
+                                ],
+                            ),
+                        ],
+                    )
+                ],
+            ),
+            footer=BoxComponent(
+                layout='vertical',
+                spacing='sm',
+                contents=[
+                    # callAction, separator, websiteAction
+                    SpacerComponent(size='sm'),
+                    # callAction
+                    ButtonComponent(
+                        style='link',
+                        height='sm',
+                        action=URIAction(label='CALL', uri='tel:000000'),
+                    ),
+                    # separator
+                    SeparatorComponent(),
+                    # websiteAction
+                    ButtonComponent(
+                        style='link',
+                        height='sm',
+                        action=URIAction(label='Menu', uri= menu_res)
+                    )
+                ]
+            ),
+        )
+        message = FlexSendMessage(alt_text="hello", contents=bubble)
+
+    return message
 
 # Channel Access Token
 line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIAj3RErrz2rEtt22mDnnTqZOLlqHYCuN6Aw7TMJ6qkS0cmvICHR5ZcgeczP6VbqCaQz9ezdAy/zsJV6nJSWoFntlnzQMTui9yzQdB04t89/1O/w1cDnyilFU=')
@@ -98,6 +195,9 @@ def handle_message(event):
     # 回覆吃吃的回傳訊息
     elif '_' in text:
         message = rest_selector(text)
+        line_bot_api.reply_message(event.reply_token, message)
+	elif '@' in text:
+        message = rest_con(text)
         line_bot_api.reply_message(event.reply_token, message)
     elif text == '吃吃':
         carousel_template = CarouselTemplate(columns=[
