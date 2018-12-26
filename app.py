@@ -61,16 +61,9 @@ def rest_selector(reply_text):
 	
 def rest_con(reply_text):
     res_eat, res_name = reply_text.split('@')
-    res_location = all_restaurant['location'][all_restaurant.restaurant == res_name].tolist()
-    res_menu = 	all_restaurant['menu pic'][all_restaurant.restaurant == res_name].tolist()
-    res_open = all_restaurant['open hour'][all_restaurant.restaurant == res_name].tolist()
-    location_txt = '' ; menu_txt = '' ; open_txt = ''
-    for i in res_location:
-        location_txt += i
-    for i in res_menu:
-        menu_txt += i
-    for i in res_open:
-        open_txt += i    
+    res_location = all_restaurant['location'][all_restaurant.restaurant == res_name]
+    res_menu = 	all_restaurant['menu pic'][all_restaurant.restaurant == res_name]
+    res_open = all_restaurant['open hour'][all_restaurant.restaurant == res_name]
 	
     bubble = BubbleContainer(
             direction='ltr',
@@ -104,7 +97,7 @@ def rest_con(reply_text):
                                         flex=1
                                     ),
                                     TextComponent(
-                                        text=location_txt,
+                                        text=res_location,
                                         wrap=True,
                                         color='#666666',
                                         size='sm',
@@ -123,7 +116,7 @@ def rest_con(reply_text):
                                         flex=1
                                     ),
                                     TextComponent(
-                                        text=open_txt,
+                                        text=res_open,
                                         wrap=True,
                                         color='#666666',
                                         size='sm',
@@ -153,7 +146,7 @@ def rest_con(reply_text):
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=URIAction(label='Menu', uri=menu_txt)
+                        action=URIAction(label='Menu', uri=res_menu)
                     )
                 ]
             ),
