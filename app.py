@@ -26,8 +26,10 @@ handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
 
 def replylist():
 	list = ['找找看今天吃什麼鴨^^','找朋友一起去吃飯吧','吃完飯記得記帳喔','你餓了嗎?']
-	message = np.random.choice(len(list),2,replace=False)
-	return message
+	output = ''
+	for x in np.random.choice(len(list),2,replace=False).tolist():
+		output = output + list[x]
+	return output
 	
 all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
 def rest_selector(reply_text):
