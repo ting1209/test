@@ -18,9 +18,11 @@ from linebot.models import *
 
 app = Flask(__name__)
 
-#
-all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
-def rest_selector(reply_text):
+
+
+def rest_selector(reply_text): #待改進：如果某類型沒有餐廳就不要輸出
+    # import the restaurant data
+    all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
     res_loc, res_type = reply_text.split('_')
     potential_150_low = all_restaurant['restaurant'][(all_restaurant.type2 == res_type) & (all_restaurant.loc_type == res_loc) & (all_restaurant.price <= 150)].tolist()
     potential_150_up = all_restaurant['restaurant'][(all_restaurant.type2 == res_type) & (all_restaurant.loc_type == res_loc) & (all_restaurant.price > 150)].tolist()
@@ -29,7 +31,7 @@ def rest_selector(reply_text):
     if len(potential_150_up) >=3:
         potential_150_up = [potential_150_up[i] for i in np.random.choice(len(potential_150_up),3,replace=False).tolist()] 
     
-    # create actions for below 150 restaurant
+    # create actions for below $150 restaurant
     action_150_low = []
     if not potential_150_low:
         action_150_low.append(MessageAction(label='試試別的',text='吃吃'))
@@ -39,7 +41,7 @@ def rest_selector(reply_text):
     if len(action_150_low) < 3:
         n = 3 - len(action_150_low)
         action_150_low.extend([MessageAction(label='--',text='吃吃')] * n)
-    # create actions for above 150 restaurant
+    # create actions for above $150 restaurant
     action_150_up = []
     if not potential_150_up:
         action_150_up.append(MessageAction(label='試試別的',text='吃吃'))
@@ -51,24 +53,126 @@ def rest_selector(reply_text):
         action_150_up.extend([MessageAction(label='--',text='吃吃')] * n)
     
     carousel_template = CarouselTemplate(columns=[
-                CarouselColumn(text='甲粗飽',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=action_150_low),
-                CarouselColumn(text='大吃爆',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=action_150_up),
+                CarouselColumn(text='甲粗飽',thumbnail_image_url='https://imageshack.com/a/img924/2488/KLllaU.jpg', actions=action_150_low),
+                CarouselColumn(text='大吃爆',thumbnail_image_url='https://imageshack.com/a/img924/5194/PrGO0e.jpg', actions=action_150_up),
             ])
     template_message = TemplateSendMessage(
         alt_text='Carousel alt text', template=carousel_template)
 
     return template_message
-	
+    
 def rest_con(reply_text):
+    all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
     res_eat, res_name = reply_text.split('@')
     res_location = all_restaurant['location'][all_restaurant.restaurant == res_name].tolist()
-    res_menu = 	all_restaurant['menu pic'][all_restaurant.restaurant == res_name].tolist()
+    res_menu =  all_restaurant['menu pic'][all_restaurant.restaurant == res_name].tolist()
     res_open = all_restaurant['open hour'][all_restaurant.restaurant == res_name].tolist()
-	
+    res_food_pic = all_restaurant['food pic'][all_restaurant.restaurant == res_name].tolist()
+    res_price = all_restaurant['price'][all_restaurant.restaurant == res_name].tolist()
+    res_rate = all_restaurant['rate'][all_restaurant.restaurant == res_name].tolist()
+    res_rate[0] = str(res_rate[0])
+
     bubble = BubbleContainer(
             direction='ltr',
             hero=ImageComponent(
-                url='https://i.imgur.com/wT9Rjq7.jpg',
+                url=res_food_pic[0],
+                size='full',
+                aspect_ratio='20:13',
+                aspect_mode='cover',
+                action=URIAction(uri='http://example.com', label='label')
+            ),
+            body=BoxComponent(
+                layout='vertical',
+                contents=[
+                    # title
+                    TextComponent(text=res_name, weight='bold', size='xl'),
+                    # review
+                    # info
+                    BoxComponent(
+                        layout='vertical',
+                        margin='lg',
+                        spacing='sm',
+                        contents=[
+                            BoxComponent(
+                                layout='baseline',
+                                spacing='sm',
+                                contents=[
+                                    TextComponent(
+                                        text='評價:',
+                                        color='#aaaaaa',
+                                        size='sm',
+                                        flex=1
+                                    ),
+                                    TextComponent(
+                                        text=res_rate[0],
+                                        wrap=True,
+                                        color='#666666',
+                                        size='sm',
+                                        flex=5
+                                    )
+                                ],
+                            ),
+                            BoxComponent(
+                                layout='baseline',
+                                spacing='sm',
+                                contents=[
+                                    TextComponent(
+                                        text='營業:',
+                                        color='#aaaaaa',
+                                        size='sm',
+                                        flex=1
+                                    ),
+                                    TextComponent(
+                                        text=res_open[0],
+                                        wrap=True,
+                                        color='#666666',
+                                        size='sm',
+                                        flex=5,
+                                    ),
+                                ],
+                            ),
+                        ],
+                    )
+                ],
+            ),
+            footer=BoxComponent(
+                layout='vertical',
+                spacing='sm',
+                contents=[
+                    # callAction, separator, websiteAction
+                    SpacerComponent(size='sm'),
+                    # callAction
+                    ButtonComponent(
+                        style='link',
+                        height='sm',
+                        action=URIAction(label='Call', uri='tel:000000'),
+                    ),
+                    # separator
+                    SeparatorComponent(),
+                    # websiteAction
+                    ButtonComponent(
+                        style='link',
+                        height='sm',
+                        action=URIAction(label='點我看菜單', uri=res_menu[0])
+                    )
+                ]
+            ),
+        )
+    message = FlexSendMessage(alt_text="hello", contents=bubble)
+    return message
+#隨機推薦餐廳
+def random_res_recommand():
+    all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
+    res_list = all_restaurant['restaurant'].tolist()
+    res_name = res_list[np.random.choice(len(res_list),1,replace=False)[0]]
+    res_location = all_restaurant['location'][all_restaurant.restaurant == res_name].tolist()
+    res_menu =  all_restaurant['menu pic'][all_restaurant.restaurant == res_name].tolist()
+    res_open = all_restaurant['open hour'][all_restaurant.restaurant == res_name].tolist()
+    res_food_pic = all_restaurant['food pic'][all_restaurant.restaurant == res_name].tolist()
+    bubble = BubbleContainer(
+            direction='ltr',
+            hero=ImageComponent(
+                url=res_food_pic[0],
                 size='full',
                 aspect_ratio='20:13',
                 aspect_mode='cover',
@@ -138,7 +242,7 @@ def rest_con(reply_text):
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=URIAction(label='CALL', uri='tel:000000'),
+                        action=URIAction(label='Call', uri='tel:000000'),
                     ),
                     # separator
                     SeparatorComponent(),
@@ -151,16 +255,13 @@ def rest_con(reply_text):
                 ]
             ),
         )
+    
     message = FlexSendMessage(alt_text="hello", contents=bubble)
     return message
-
-        
-	
-	
 # Channel Access Token
-line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIAj3RErrz2rEtt22mDnnTqZOLlqHYCuN6Aw7TMJ6qkS0cmvICHR5ZcgeczP6VbqCaQz9ezdAy/zsJV6nJSWoFntlnzQMTui9yzQdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('03lCKiHH72CQak6lrU9vdhwyu5HUDEeihF4bQIxokPtct6L03QXfkHhvoFZI579Z95i9hdkX6eRbOWDOB+t0XwJMv/D70W7/x3wBX4+wCldtj4WpF7QC2yqClPExW/nrOUZMZJakON6zJsgAuR8N5wdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
-handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
+handler = WebhookHandler('fff9aae6226c58c93a7c5a8001e836f6')
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -202,27 +303,27 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, message)
     elif text == '吃吃':
         carousel_template = CarouselTemplate(columns=[
-            CarouselColumn(text='大門',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
+            CarouselColumn(text='大門',thumbnail_image_url='https://imageshack.com/a/img922/5797/bmTsZR.jpg', actions=[
                 MessageAction(label='飯', text='大門_飯'),
                 MessageAction(label='麵', text='大門_麵'),
                 MessageAction(label='其他', text='大門_其他')
             ]),
-            CarouselColumn(text='公館',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
+            CarouselColumn(text='公館',thumbnail_image_url='https://imageshack.com/a/img924/4281/roaxOD.jpg', actions=[
                 MessageAction(label='飯', text='公館_飯'),
                 MessageAction(label='麵', text='公館_麵'),
                 MessageAction(label='其他', text='公館_其他')
             ]),
-            CarouselColumn(text='溫州街',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
+            CarouselColumn(text='溫州街',thumbnail_image_url='https://imageshack.com/a/img922/9151/pWvlUR.jpg', actions=[
                 MessageAction(label='飯', text='溫州街_飯'),
                 MessageAction(label='麵', text='溫州街_麵'),
                 MessageAction(label='其他', text='溫州街_其他')
             ]),
-            CarouselColumn(text='118巷',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
+            CarouselColumn(text='118巷',thumbnail_image_url='https://imageshack.com/a/img924/3011/UmlTNT.jpg', actions=[
                 MessageAction(label='飯', text='118巷_飯'),
                 MessageAction(label='麵', text='118巷_麵'),
                 MessageAction(label='其他', text='118巷_其他')
             ]),
-            CarouselColumn(text='校內',thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg', actions=[
+            CarouselColumn(text='校內',thumbnail_image_url='https://imageshack.com/a/img922/6195/bMNTVQ.jpg', actions=[
                 MessageAction(label='飯', text='校內_飯'),
                 MessageAction(label='麵', text='校內_麵'),
                 MessageAction(label='其他', text='校內_其他')
@@ -245,116 +346,9 @@ def handle_message(event):
         template_message = TemplateSendMessage(
             alt_text='ImageCarousel alt text', template=image_carousel_template)
         line_bot_api.reply_message(event.reply_token, template_message)
-    elif text == 'flex' or text == '推薦':
-        bubble = BubbleContainer(
-            direction='ltr',
-            hero=ImageComponent(
-                url='https://i.imgur.com/wT9Rjq7.jpg',
-                size='full',
-                aspect_ratio='20:13',
-                aspect_mode='cover',
-                action=URIAction(uri='http://example.com', label='label')
-            ),
-            body=BoxComponent(
-                layout='vertical',
-                contents=[
-                    # title
-                    TextComponent(text='Brown Cafe', weight='bold', size='xl'),
-                    # review
-                    BoxComponent(
-                        layout='baseline',
-                        margin='md',
-                        contents=[
-                            IconComponent(size='sm', url='https://example.com/gold_star.png'),
-                            IconComponent(size='sm', url='https://example.com/grey_star.png'),
-                            IconComponent(size='sm', url='https://example.com/gold_star.png'),
-                            IconComponent(size='sm', url='https://example.com/gold_star.png'),
-                            IconComponent(size='sm', url='https://example.com/grey_star.png'),
-                            TextComponent(text='4.0', size='sm', color='#999999', margin='md',
-                                          flex=0)
-                        ]
-                    ),
-                    # info
-                    BoxComponent(
-                        layout='vertical',
-                        margin='lg',
-                        spacing='sm',
-                        contents=[
-                            BoxComponent(
-                                layout='baseline',
-                                spacing='sm',
-                                contents=[
-                                    TextComponent(
-                                        text='Place',
-                                        color='#aaaaaa',
-                                        size='sm',
-                                        flex=1
-                                    ),
-                                    TextComponent(
-                                        text='Shinjuku, Tokyo',
-                                        wrap=True,
-                                        color='#666666',
-                                        size='sm',
-                                        flex=5
-                                    )
-                                ],
-                            ),
-                            BoxComponent(
-                                layout='baseline',
-                                spacing='sm',
-                                contents=[
-                                    TextComponent(
-                                        text='Time',
-                                        color='#aaaaaa',
-                                        size='sm',
-                                        flex=1
-                                    ),
-                                    TextComponent(
-                                        text="10:00 - 23:00",
-                                        wrap=True,
-                                        color='#666666',
-                                        size='sm',
-                                        flex=5,
-                                    ),
-                                ],
-                            ),
-                        ],
-                    )
-                ],
-            ),
-            footer=BoxComponent(
-                layout='vertical',
-                spacing='sm',
-                contents=[
-                    # callAction, separator, websiteAction
-                    SpacerComponent(size='sm'),
-                    # callAction
-                    ButtonComponent(
-                        style='link',
-                        height='sm',
-                        action=URIAction(label='CALL', uri='tel:000000'),
-                    ),
-                    # separator
-                    SeparatorComponent(),
-                    # websiteAction
-                    ButtonComponent(
-                        style='link',
-                        height='sm',
-                        action=URIAction(label='WEBSITE', uri="https://example.com")
-                    )
-                ]
-            ),
-        )
-        message = FlexSendMessage(alt_text="hello", contents=bubble)
-        line_bot_api.reply_message(
-            event.reply_token,
-            message
-        )
-        message = FlexSendMessage(alt_text="hello", contents=bubble)
-        line_bot_api.reply_message(
-            event.reply_token,
-            message
-        )
+    elif text == '推薦':
+        message = random_res_recommand()
+        line_bot_api.reply_message(event.reply_token, message)
     else:
         message = TextSendMessage(text=event.message.text)
         line_bot_api.reply_message(event.reply_token, message)
