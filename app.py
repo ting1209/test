@@ -145,7 +145,7 @@ def rest_con(reply_text):
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=URIAction(label='Call', uri='tel:000000'),
+                        action=URIAction(label='Call', uri='https://www.google.com/maps/place/%E5%B0%8F%E9%A3%AF%E5%BB%B3/@25.0172234,121.5325649,15z/data=!4m2!3m1!1s0x0:0x3302ca4a5e889105?ved=2ahUKEwj23auCnb_fAhVHErwKHSCtDBkQ_BIwCnoECAAQCA'),
                     ),
                     # separator
                     SeparatorComponent(),
