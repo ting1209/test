@@ -346,7 +346,7 @@ def handle_message(event):
     elif text == "PanX泛科技":
         content = panx()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-    elif text == '徹底ㄎ':
+    elif text == '記帳':
         buttons_template = TemplateSendMessage(
             alt_text='新聞 template',
             template=ButtonsTemplate(
