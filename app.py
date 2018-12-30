@@ -64,8 +64,8 @@ def rest_selector(reply_text): #待改進：如果某類型沒有餐廳就不要
 
     return template_message
 	
-def food_news():
-    target_url = 'https://udn.com/search/tagging/2/%E5%A4%A7%E5%8F%B0%E5%8C%97%E7%BE%8E%E9%A3%9F'
+def apple_news():
+    target_url = 'https://tw.lifestyle.appledaily.com/lifestyle/realtime'
     print('Wait for a minute...')
     rs = requests.session()
     res = rs.get(target_url, verify=False)
@@ -76,6 +76,7 @@ def food_news():
             return content
         link = data['href']
         content += '{}\n\n'.format(link)
+
     return content
     
 def rest_con(reply_text):
@@ -311,7 +312,7 @@ def handle_message(event):
             alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
     elif text == '記帳':
-        content = food_news()
+        content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
     # 回覆吃吃的回傳訊息
     elif '_' in text:
