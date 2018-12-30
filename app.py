@@ -43,8 +43,6 @@ def free_news():
     content = ""
 
     for index, data in enumerate(soup.select('.tit')):
-        if index == 5:
-            return content
         title = data.text
         link = data['href']
         content += '{}\n{}\n\n'.format(title, link)
