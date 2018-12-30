@@ -21,7 +21,48 @@ from linebot.models import *
 
 app = Flask(__name__)
 
+def apple_news():
+    target_url = 'https://tw.appledaily.com/new/realtime'
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+    for index, data in enumerate(soup.select('.rtddt a'), 0):
+        if index == 5:
+            return content
+        link = data['href']
+        content += '{}\n\n'.format(link)
+    return content
+	
+def technews():
+    target_url = 'https://technews.tw/'
+    print('Start parsing movie ...')
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
 
+    for index, data in enumerate(soup.select('article div h1.entry-title a')):
+        if index == 12:
+            return content
+        title = data.text
+        link = data['href']
+        content += '{}\n{}\n\n'.format(title, link)
+    return content
+	
+def panx():
+    target_url = 'https://panx.asia/'
+    print('Start parsing ptt hot....')
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+    for data in soup.select('div.container div.row div.desc_wrap h2 a'):
+        title = data.text
+        link = data['href']
+        content += '{}\n{}\n\n'.format(title, link)
+    return content
 
 def rest_selector(reply_text): #待改進：如果某類型沒有餐廳就不要輸出
     # import the restaurant data
@@ -64,20 +105,6 @@ def rest_selector(reply_text): #待改進：如果某類型沒有餐廳就不要
 
     return template_message
 	
-def apple_news():
-    target_url = 'https://tw.appledaily.com/new/realtime'
-    print('Wait for a minute...')
-    rs = requests.session()
-    res = rs.get(target_url, verify=False)
-    soup = BeautifulSoup(res.text, 'html.parser')
-    content = ""
-    for index, data in enumerate(soup.select('.rtddt a'), 0):
-        if index == 5:
-            return content
-        link = data['href']
-        content += '{}\n\n'.format(link)
-
-    return content
     
 def rest_con(reply_text):
     all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
@@ -310,10 +337,39 @@ def handle_message(event):
             ])
         template_message = TemplateSendMessage(
             alt_text='Buttons alt text', template=buttons_template)
-        line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
-    elif text == '記帳':
+    elif text == "蘋果即時新聞":
         content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+    elif text == "科技新報":
+        content = technews()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+    elif text == "PanX泛科技":
+        content = panx()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+    elif text == '徹底ㄎ':
+        buttons_template = TemplateSendMessage(
+            alt_text='新聞 template',
+            template=ButtonsTemplate(
+                title='新聞類型',
+                text='請選擇',
+                thumbnail_image_url='https://i.imgur.com/vkqbLnz.png',
+                actions=[
+                    MessageTemplateAction(
+                        label='蘋果即時新聞',
+                        text='蘋果即時新聞'
+                    ),
+                    MessageTemplateAction(
+                        label='科技新報',
+                        text='科技新報'
+                    ),
+                    MessageTemplateAction(
+                        label='PanX泛科技',
+                        text='PanX泛科技'
+                    )
+                ]
+            )
+        )
+        line_bot_api.reply_message(event.reply_token, buttons_template)
     # 回覆吃吃的回傳訊息
     elif '_' in text:
         message = rest_selector(text)
