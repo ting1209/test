@@ -34,8 +34,8 @@ def apple_news():
         content += '{}\n\n'.format(link)
     return content
 	
-def technews():
-    target_url = 'https://technews.tw/'
+def free_news():
+    target_url = 'http://food.ltn.com.tw/'
     print('Start parsing movie ...')
     rs = requests.session()
     res = rs.get(target_url, verify=False)
@@ -43,7 +43,7 @@ def technews():
     soup = BeautifulSoup(res.text, 'html.parser')
     content = ""
 
-    for index, data in enumerate(soup.select('article div h1.entry-title a')):
+    for index, data in enumerate(soup.select('.tit')):
         if index == 12:
             return content
         title = data.text
@@ -340,8 +340,8 @@ def handle_message(event):
     elif text == "蘋果即時新聞":
         content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-    elif text == "科技新報":
-        content = technews()
+    elif text == "自由食譜":
+        content = free_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
     elif text == "PanX泛科技":
         content = panx()
@@ -360,7 +360,7 @@ def handle_message(event):
                     ),
                     MessageTemplateAction(
                         label='科技新報',
-                        text='科技新報'
+                        text='自由食譜'
                     ),
                     MessageTemplateAction(
                         label='PanX泛科技',
