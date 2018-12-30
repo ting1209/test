@@ -65,7 +65,7 @@ def rest_selector(reply_text): #待改進：如果某類型沒有餐廳就不要
     return template_message
 	
 def apple_news():
-    target_url = 'https://tw.lifestyle.appledaily.com/lifestyle/realtime'
+    target_url = 'https://tw.appledaily.com/lifestyle/realtime'
     print('Wait for a minute...')
     rs = requests.session()
     res = rs.get(target_url, verify=False)
