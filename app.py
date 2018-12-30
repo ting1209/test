@@ -40,7 +40,6 @@ def free_news():
     res = rs.get(target_url, verify=False)
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')
-	soup = soup[6:]
     content = ""
 
     for index, data in enumerate(soup.select('.tit')):
