@@ -36,7 +36,6 @@ def apple_news():
 	
 def free_news():
     target_url = 'http://food.ltn.com.tw/'
-    print('Start parsing movie ...')
     rs = requests.session()
     res = rs.get(target_url, verify=False)
     res.encoding = 'utf-8'
@@ -44,7 +43,7 @@ def free_news():
     content = ""
 
     for index, data in enumerate(soup.select('.tit')):
-        if index == 12:
+        if index == 5:
             return content
         title = data.text
         link = data['href']
@@ -359,7 +358,7 @@ def handle_message(event):
                         text='蘋果即時新聞'
                     ),
                     MessageTemplateAction(
-                        label='科技新報',
+                        label='自由食譜',
                         text='自由食譜'
                     ),
                     MessageTemplateAction(
