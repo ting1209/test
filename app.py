@@ -60,6 +60,20 @@ def rest_selector(reply_text): #待改進：如果某類型沒有餐廳就不要
         alt_text='Carousel alt text', template=carousel_template)
 
     return template_message
+	
+def apple_news():
+    target_url = 'https://tw.appledaily.com/new/realtime'
+    print('Wait for a minute...')
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    soup = BeautifulSoup(res.text, 'html.parser')
+    content = ""
+    for index, data in enumerate(soup.select('.rtddt a'), 0):
+        if index == 5:
+            return content
+        link = data['href']
+        content += '{}\n\n'.format(link)
+    return content
     
 def rest_con(reply_text):
     all_restaurant = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vRR3IygA5p4RzvLnqct1YS_5PngAP9ANKdcK0fhTuWEI6zA52YrqFyS-dBex3b6lcqt5WM4kQE0r3Oh/pub?output=csv',header=0)
@@ -293,6 +307,9 @@ def handle_message(event):
         template_message = TemplateSendMessage(
             alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
+    elif text == '記帳':
+        content = apple_news()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
     # 回覆吃吃的回傳訊息
     elif '_' in text:
         message = rest_selector(text)
