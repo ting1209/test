@@ -1,4 +1,7 @@
 from __future__ import unicode_literals
+import requests
+import re
+from bs4 import BeautifulSoup
 import pandas as pd
 import numpy as np
 import errno
