@@ -79,7 +79,7 @@ def rest_con(reply_text):
                 size='full',
                 aspect_ratio='20:13',
                 aspect_mode='cover',
-                action=URIAction(uri='http://example.com', label='label')
+                action=URIAction(uri='https://www.google.com/maps/search/'+res_name, label='label')
             ),
             body=BoxComponent(
                 layout='vertical',
@@ -145,7 +145,7 @@ def rest_con(reply_text):
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=URIAction(label='Call', uri='https://www.google.com/maps/place/%E5%B0%8F%E9%A3%AF%E5%BB%B3/@25.0172234,121.5325649,15z/data=!4m2!3m1!1s0x0:0x3302ca4a5e889105?ved=2ahUKEwj23auCnb_fAhVHErwKHSCtDBkQ_BIwCnoECAAQCA'),
+                        action=URIAction(label='走起',uri='https://www.google.com/maps/search/'+res_name)
                     ),
                     # separator
                     SeparatorComponent(),
@@ -153,7 +153,7 @@ def rest_con(reply_text):
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=URIAction(label='點我看菜單', uri=res_menu[0])
+                        action=URIAction(label='菜單', uri=res_menu[0])
                     )
                 ]
             ),
@@ -176,7 +176,7 @@ def random_res_recommand():
                 size='full',
                 aspect_ratio='20:13',
                 aspect_mode='cover',
-                action=URIAction(uri='http://example.com', label='label')
+                action=URIAction(uri='https://www.google.com/maps/search/'+res_name, label='label')
             ),
             body=BoxComponent(
                 layout='vertical',
@@ -242,7 +242,7 @@ def random_res_recommand():
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=URIAction(label='Call', uri='tel:000000'),
+                        action=URIAction(label='走起',uri='https://www.google.com/maps/search/'+res_name)
                     ),
                     # separator
                     SeparatorComponent(),
@@ -250,7 +250,7 @@ def random_res_recommand():
                     ButtonComponent(
                         style='link',
                         height='sm',
-                        action=URIAction(label='Menu', uri=res_menu[0])
+                        action=URIAction(label='菜單', uri=res_menu[0])
                     )
                 ]
             ),
@@ -259,9 +259,9 @@ def random_res_recommand():
     message = FlexSendMessage(alt_text="hello", contents=bubble)
     return message
 # Channel Access Token
-line_bot_api = LineBotApi('GcXT0hcdzVX8y0VopCEgHKKRKhZL1jKsALAkwxTV49W7dLbq2myIAj3RErrz2rEtt22mDnnTqZOLlqHYCuN6Aw7TMJ6qkS0cmvICHR5ZcgeczP6VbqCaQz9ezdAy/zsJV6nJSWoFntlnzQMTui9yzQdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('03lCKiHH72CQak6lrU9vdhwyu5HUDEeihF4bQIxokPtct6L03QXfkHhvoFZI579Z95i9hdkX6eRbOWDOB+t0XwJMv/D70W7/x3wBX4+wCldtj4WpF7QC2yqClPExW/nrOUZMZJakON6zJsgAuR8N5wdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
-handler = WebhookHandler('a7f676f0726586e8fe40d2a58227ca8a')
+handler = WebhookHandler('fff9aae6226c58c93a7c5a8001e836f6')
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -277,7 +277,6 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
-
 
 @handler.add(MessageEvent, message=TextMessage) # 處理文字訊息（message = TextMessage）
 def handle_message(event):
