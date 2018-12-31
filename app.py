@@ -31,13 +31,11 @@ def getData_Invoice():
     soup = BeautifulSoup(htmlContent, "html.parser")
     results = soup.find_all("span", class_="t18Red")
     subTitle = ['特別獎', '特獎', '頭獎', '增開六獎'] # 獎項
-
     months = soup.find_all('h2', {'id': 'tabTitle'})
     # 最新一期
     month_newst = months[0].find_next_sibling('h2').text
     # 上一期
-    month_previous = months[1].find_next_sibling('h2').text
-    
+    month_previous = months[1].find_next_sibling('h2').text  
     this = ''
     for index, item in enumerate(results[:4]):
         out = ('>> {0} : {1}'.format(subTitle[index], item.text)) + '\n'
@@ -46,7 +44,7 @@ def getData_Invoice():
     for index2, item2 in enumerate(results[4:8]):
         out1 = ('>> {0} : {1}'.format(subTitle[index2], item2.text)) + '\n'
         last += out1
-    content = this + '\n' + last
+    content = this
     return content
 	
 def apple_news():
@@ -355,7 +353,7 @@ def handle_message(event):
 
     if  text == '發票':
         content = getData_Invoice()
-        line_bot_api.reply_message(event.reply_token, content) # 送出訊息，訊息內容為'template_message'
+        line_bot_api.reply_message(event.reply_token, content)
     elif text == "蘋果即時新聞":
         content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
