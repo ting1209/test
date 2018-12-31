@@ -19,7 +19,7 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
-
+from urllib.request import urlopen
 
 app = Flask(__name__)
 
@@ -27,8 +27,8 @@ def getData_Invoice():
     # 財政部官網
     request_url = 'http://invoice.etax.nat.gov.tw/' 
     # 取得HTML
-    rs = requests.session()
-    res = rs.get(target_url, verify=False)
+    htmlContent = urlopen(request_url).read()
+    soup = BeautifulSoup(htmlContent, "html.parser")
     soup = BeautifulSoup(res.text, "html.parser")
     results = soup.find_all("span", class_="t18Red")
     subTitle = ['特別獎', '特獎', '頭獎', '增開六獎'] # 獎項
