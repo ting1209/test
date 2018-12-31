@@ -40,13 +40,13 @@ def getData_Invoice():
     month_previous = months[1].find_next_sibling('h2').text
 
     now_content = '' ; last_content = ''
-    now_content += ("最新一期統一發票開獎號碼 ({0})：\n".format(month_newst))
+    now_content += ("最新一期統一發票開獎號碼 ({0})：".format(month_newst))
     for index, item in enumerate(results[:4]):
-        now_content += ('>> {0} : {1}\n'.format(subTitle[index], item.text))
+        now_content += ('>> {0} : {1}'.format(subTitle[index], item.text))
 
-    last_content += ("上期統一發票開獎號碼 ({0})：\n".format(month_previous))
+    last_content += ("上期統一發票開獎號碼 ({0})：".format(month_previous))
     for index2, item2 in enumerate(results[4:8]):
-        last_content += ('>> {0} : {1}\n'.format(subTitle[index2], item2.text))
+        last_content += ('>> {0} : {1}'.format(subTitle[index2], item2.text))
     return now_content, last_content
 
 def apple_news():
@@ -355,14 +355,8 @@ def handle_message(event):
 
     if  text == '發票':
         content1, content2 = getData_Invoice()
-        buttons_template = ButtonsTemplate(
-            thumbnail_image_url='https://i.imgur.com/PtvI0GM.jpg',title='看看中獎不', text='選擇月份', actions=[
-                MessageAction(label='7.8月發票', text=content2),
-                MessageAction(label='9.10月發票', text=content1),
-            ])
-        template_message = TemplateSendMessage(
-            alt_text='Buttons alt text', template=buttons_template)
-        line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
+        content = content1 + content2
+        line_bot_api.reply_message(event.reply_token, content) # 送出訊息，訊息內容為'template_message'
     elif text == "蘋果即時新聞":
         content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
