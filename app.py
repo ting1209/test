@@ -21,6 +21,29 @@ from linebot.models import *
 
 app = Flask(__name__)
 
+def getData_Invoice(month):
+    url = "https://www.etax.nat.gov.tw/etw-main/front/ETW183W2_" + str(month) +"/"
+    response = requests.get(url)
+    # 如果獲取資料出現問題則報錯
+    if str(response.status_code)!="200":
+        print("The HTTP Status Code is "+str(response.status_code)+", please check!!!!!!!!")
+        os._exit(0)
+    # 使用Beautifulsoup獲取網站資料,並取得表格
+    soup = BeautifulSoup(response.content, "lxml")
+    table = soup.select_one('table.table_b')
+    # 讀取表格內容
+    content = []
+    for table_row in table.select('tr'):
+        colms = []
+        if table_row.select('th'):
+            colms.append(table_row.select_one('th').text)
+        else:
+            colms.append("")
+        colms.append(table_row.select_one('td').text)
+
+        content.append(colms)
+    return content
+
 def apple_news():
     target_url = 'https://tw.appledaily.com/new/realtime'
     rs = requests.session()
@@ -326,15 +349,8 @@ def handle_message(event):
     text = event.message.text # 使用者傳的訊息存成變數 text
 
     if  text == '發票':
-        buttons_template = ButtonsTemplate(
-            thumbnail_image_url='https://i.imgur.com/fIKfTIi.jpg',title='My buttons sample', text='哈', actions=[
-                URIAction(label='Go to line.me', uri='https://line.me'),
-                PostbackAction(label='ping', data='ping'),
-                PostbackAction(label='ping with text', data='ping', text='ping'),
-                MessageAction(label='Translate Rice', text='米') #Messageaction: 替使用者傳訊息，label為選項的文字，text為要傳的訊息
-            ])
-        template_message = TemplateSendMessage(
-            alt_text='Buttons alt text', template=buttons_template)
+        content = getData_Invoice(9)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
     elif text == "蘋果即時新聞":
         content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
