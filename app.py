@@ -19,30 +19,34 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
+import urllib2
+
 app = Flask(__name__)
 
-def getData_Invoice(month):
-    url = "https://www.etax.nat.gov.tw/etw-main/web/ETW183W2_" + str(month) +"/"
-    response = requests.get(url)
-    # 如果獲取資料出現問題則報錯
-    if str(response.status_code)!="200":
-        print("The HTTP Status Code is "+str(response.status_code)+", please check!!!!!!!!")
-        os._exit(0)
-    # 使用Beautifulsoup獲取網站資料,並取得表格
-    soup = BeautifulSoup(response.content, "lxml")
-    table = soup.select_one('table.table_b')
-    # 讀取表格內容
-    content = ''
-    for table_row in table.select('tr'):
-        colms = ''
-        if table_row.select('th'):
-            colms += (table_row.select_one('th').text)
-        else:
-            colms += ("")
-        colms += (table_row.select_one('td').text)
+def getData_Invoice():
+    # 財政部官網
+    request_url = 'http://invoice.etax.nat.gov.tw/' 
+    # 取得HTML
+    htmlContent = urllib2.urlopen(request_url).read()
+    soup = BeautifulSoup(htmlContent, "html.parser")
+    results = soup.find_all("span", class_="t18Red")
+    subTitle = ['特別獎', '特獎', '頭獎', '增開六獎'] # 獎項
 
-        content += (colms)
-    return content
+    months = soup.find_all('h2', {'id': 'tabTitle'})
+    # 最新一期
+    month_newst = months[0].find_next_sibling('h2').text
+    # 上一期
+    month_previous = months[1].find_next_sibling('h2').text
+	
+    now_content = '' ; last_content = ''
+    now_content += ("最新一期統一發票開獎號碼 ({0})：\n".format(month_newst))
+    for index, item in enumerate(results[:4]):
+        now_content += ('>> {0} : {1}\n'.format(subTitle[index], item.text))
+
+    last_content += ("上期統一發票開獎號碼 ({0})：\n".format(month_previous))
+    for index2, item2 in enumerate(results[4:8]):
+        last_content += ('>> {0} : {1}\n'.format(subTitle[index2], item2.text))
+    return now_content, last_content
 
 def apple_news():
     target_url = 'https://tw.appledaily.com/new/realtime'
@@ -349,8 +353,15 @@ def handle_message(event):
     text = event.message.text # 使用者傳的訊息存成變數 text
 
     if  text == '發票':
-        content = getData_Invoice('10709')
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+        content1, content2 = getData_Invoice()
+        buttons_template = ButtonsTemplate(
+            thumbnail_image_url='https://i.imgur.com/PtvI0GM.jpg',title='看看中獎不', text='選擇月份', actions=[
+                MessageAction(label='7.8月發票', text=content2),
+                MessageAction(label='9.10月發票', text=content1),
+            ])
+        template_message = TemplateSendMessage(
+            alt_text='Buttons alt text', template=buttons_template)
+        line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
     elif text == "蘋果即時新聞":
         content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
