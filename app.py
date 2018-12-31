@@ -349,7 +349,7 @@ def handle_message(event):
     text = event.message.text # 使用者傳的訊息存成變數 text
 
     if  text == '發票':
-        content = getData_Invoice(9)
+        content = getData_Invoice('10709')
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
     elif text == "蘋果即時新聞":
         content = apple_news()
