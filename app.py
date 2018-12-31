@@ -38,11 +38,11 @@ def getData_Invoice():
     month_previous = months[1].find_next_sibling('h2').text  
     this = ''
     for index, item in enumerate(results[:4]):
-        out = ('>> {0} : {1}'.format(subTitle[index], item.text)) + '\n'
+        out = ('>> {0} : {1}'.format(subTitle[index], item.text)) 
         this += out
     last = ''
     for index2, item2 in enumerate(results[4:8]):
-        out1 = ('>> {0} : {1}'.format(subTitle[index2], item2.text)) + '\n'
+        out1 = ('>> {0} : {1}'.format(subTitle[index2], item2.text)) 
         last += out1
     content = this
     return content
