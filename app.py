@@ -32,16 +32,16 @@ def getData_Invoice(month):
     soup = BeautifulSoup(response.content, "lxml")
     table = soup.select_one('table.table_b')
     # 讀取表格內容
-    content = []
+    content = ''
     for table_row in table.select('tr'):
-        colms = []
+        colms = ''
         if table_row.select('th'):
-            colms.append(table_row.select_one('th').text)
+            colms += (table_row.select_one('th').text)
         else:
-            colms.append("")
-        colms.append(table_row.select_one('td').text)
+            colms += ("")
+        colms += (table_row.select_one('td').text)
 
-        content.append(colms)
+        content += (colms)
     return content
 
 def apple_news():
