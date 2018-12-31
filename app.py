@@ -355,8 +355,8 @@ def handle_message(event):
     if  text == '發票':
         buttons_template = ButtonsTemplate(
             thumbnail_image_url='https://i.imgur.com/PtvI0GM.jpg',title='看看中獎不', text='選擇月份', actions=[
-                MessageAction(label='7.8月發票', text = '上個月發票號碼'),
-                MessageAction(label='9.10月發票', text = '本月發票號碼'),
+                MessageAction(label='上一期發票號碼', text = '上個月發票號碼'),
+                MessageAction(label='最新一期發票號碼', text = '本月發票號碼'),
             ])
         template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
