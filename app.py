@@ -353,14 +353,19 @@ def handle_message(event):
     text = event.message.text # 使用者傳的訊息存成變數 text
 
     if  text == '發票':
-        this, last = getData_Invoice()
         buttons_template = ButtonsTemplate(
             thumbnail_image_url='https://i.imgur.com/PtvI0GM.jpg',title='看看中獎不', text='選擇月份', actions=[
-                MessageAction(label='7.8月發票', action = last),
-                MessageAction(label='9.10月發票', action = this),
+                MessageAction(label='7.8月發票', text = '上個月發票號碼'),
+                MessageAction(label='9.10月發票', text = '本月發票號碼'),
             ])
         template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
+    elif text == '本月發票號碼':
+        this, last = getData_Invoice()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=this))
+    elif text == '上個月發票號碼':
+        this, last = getData_Invoice()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=last))
     elif text == "蘋果即時新聞":
         content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
