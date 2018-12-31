@@ -37,7 +37,7 @@ def getData_Invoice():
     # 上一期
     month_previous = months[1].find_next_sibling('h2').text  
     this = ''
-    this += ("最新一期統一發票開獎號碼 ({0})\n：".format(month_newst))
+    this += ("最新一期統一發票開獎號碼 ({0})：\n".format(month_newst))
     for index, item in enumerate(results[:4]):
         out = ('>> {0} : {1}\n'.format(subTitle[index], item.text)) 
         this += out
@@ -356,8 +356,8 @@ def handle_message(event):
         this, last = getData_Invoice()
         buttons_template = ButtonsTemplate(
             thumbnail_image_url='https://i.imgur.com/PtvI0GM.jpg',title='看看中獎不', text='選擇月份', actions=[
-                MessageAction(label='7.8月發票', text = last),
-                MessageAction(label='9.10月發票', text = this),
+                MessageAction(label='7.8月發票', action = last),
+                MessageAction(label='9.10月發票', action = this),
             ])
         template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
