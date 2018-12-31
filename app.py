@@ -47,7 +47,7 @@ def getData_Invoice():
     last_content += ("上期統一發票開獎號碼 ({0})：".format(month_previous))
     for index2, item2 in enumerate(results[4:8]):
         last_content += ('>> {0} : {1}'.format(subTitle[index2], item2.text))
-    return now_content, last_content
+    return now_content+last_content
 
 def apple_news():
     target_url = 'https://tw.appledaily.com/new/realtime'
@@ -354,8 +354,7 @@ def handle_message(event):
     text = event.message.text # 使用者傳的訊息存成變數 text
 
     if  text == '發票':
-        content1, content2 = getData_Invoice()
-        content = content1 + content2
+        content = getData_Invoice()
         line_bot_api.reply_message(event.reply_token, content) # 送出訊息，訊息內容為'template_message'
     elif text == "蘋果即時新聞":
         content = apple_news()
