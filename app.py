@@ -38,17 +38,18 @@ def getData_Invoice():
     month_newst = months[0].find_next_sibling('h2').text
     # 上一期
     month_previous = months[1].find_next_sibling('h2').text
-
-    now_content = '' ; last_content = ''
-    now_content += ("最新一期統一發票開獎號碼 ({0})：".format(month_newst))
+    
+    this = ''
     for index, item in enumerate(results[:4]):
-        now_content += ('>> {0} : {1}'.format(subTitle[index], item.text))
-
-    last_content += ("上期統一發票開獎號碼 ({0})：".format(month_previous))
+        out = ('>> {0} : {1}'.format(subTitle[index], item.text)) + '\n'
+        this += out
+    last = ''
     for index2, item2 in enumerate(results[4:8]):
-        last_content += ('>> {0} : {1}'.format(subTitle[index2], item2.text))
-    return now_content+last_content
-
+        out1 = ('>> {0} : {1}'.format(subTitle[index2], item2.text)) + '\n'
+        last += out1
+    content = this + '\n' + last
+    return content
+	
 def apple_news():
     target_url = 'https://tw.appledaily.com/new/realtime'
     rs = requests.session()
