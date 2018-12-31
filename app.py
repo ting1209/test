@@ -22,7 +22,7 @@ from linebot.models import *
 app = Flask(__name__)
 
 def getData_Invoice(month):
-    url = "https://www.etax.nat.gov.tw/etw-main/front/ETW183W2_" + str(month) +"/"
+    url = "https://www.etax.nat.gov.tw/etw-main/web/ETW183W2_" + str(month) +"/"
     response = requests.get(url)
     # 如果獲取資料出現問題則報錯
     if str(response.status_code)!="200":
