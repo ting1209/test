@@ -353,7 +353,7 @@ def handle_message(event):
 
     if  text == '發票':
         content = getData_Invoice()
-        line_bot_api.reply_message(event.reply_token, content)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
     elif text == "蘋果即時新聞":
         content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
