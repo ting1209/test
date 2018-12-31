@@ -29,7 +29,6 @@ def getData_Invoice():
     # 取得HTML
     htmlContent = urlopen(request_url).read()
     soup = BeautifulSoup(htmlContent, "html.parser")
-    soup = BeautifulSoup(res.text, "html.parser")
     results = soup.find_all("span", class_="t18Red")
     subTitle = ['特別獎', '特獎', '頭獎', '增開六獎'] # 獎項
 
