@@ -35,14 +35,16 @@ def getData_Invoice():
     # 最新一期
     month_newst = months[0].find_next_sibling('h2').text
     # 上一期
-    month_previous = months[1].find_next_sibling('h2').text   
-    print ("最新一期統一發票開獎號碼 ({0})：".format(month_newst))
+    month_previous = months[1].find_next_sibling('h2').text  
+    this = ''
     for index, item in enumerate(results[:4]):
-        print ('>> {0} : {1}'.format(subTitle[index], item.text))
-    print ("上期統一發票開獎號碼 ({0})：".format(month_previous))
+        out = ('>> {0} : {1}'.format(subTitle[index], item.text)) + '\n'
+        this += out
+    last = ''
     for index2, item2 in enumerate(results[4:8]):
-        print ('>> {0} : {1}'.format(subTitle[index2], item2.text))
-	content = '有中獎嗎?'
+        out1 = ('>> {0} : {1}'.format(subTitle[index2], item2.text)) + '\n'
+        last += out1
+    content = this
     return content
 	
 def apple_news():
