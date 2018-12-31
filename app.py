@@ -356,8 +356,8 @@ def handle_message(event):
         this, last = getData_Invoice()
         buttons_template = ButtonsTemplate(
             thumbnail_image_url='https://i.imgur.com/PtvI0GM.jpg',title='看看中獎不', text='選擇月份', actions=[
-                MessageAction(label='7.8月發票', actions = last),
-                MessageAction(label='9.10月發票', actions = this),
+                MessageAction(label='7.8月發票', action = last),
+                MessageAction(label='9.10月發票', action = this),
             ])
         template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
