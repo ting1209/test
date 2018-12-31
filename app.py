@@ -19,7 +19,7 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
-import urllib2
+
 
 app = Flask(__name__)
 
@@ -27,8 +27,9 @@ def getData_Invoice():
     # 財政部官網
     request_url = 'http://invoice.etax.nat.gov.tw/' 
     # 取得HTML
-    htmlContent = urllib2.urlopen(request_url).read()
-    soup = BeautifulSoup(htmlContent, "html.parser")
+    rs = requests.session()
+    res = rs.get(target_url, verify=False)
+    soup = BeautifulSoup(res.text, "html.parser")
     results = soup.find_all("span", class_="t18Red")
     subTitle = ['特別獎', '特獎', '頭獎', '增開六獎'] # 獎項
 
@@ -37,7 +38,7 @@ def getData_Invoice():
     month_newst = months[0].find_next_sibling('h2').text
     # 上一期
     month_previous = months[1].find_next_sibling('h2').text
-	
+
     now_content = '' ; last_content = ''
     now_content += ("最新一期統一發票開獎號碼 ({0})：\n".format(month_newst))
     for index, item in enumerate(results[:4]):
