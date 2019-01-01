@@ -23,41 +23,30 @@ from urllib.request import urlopen
 
 app = Flask(__name__)
 
-def getData_Invoice(month):
-    url = "https://www.etax.nat.gov.tw/"
-    response = urlopen(url).read()
-    # 如果獲取資料出現問題則報錯
-    if str(response.status_code)!="200":
-        #print("The HTTP Status Code is "+str(response.status_code)+", please check!!!!!!!!")
-        os._exit(0)
-    # 使用Beautifulsoup獲取網站資料,並取得表格
-    soup = BeautifulSoup(response, "html.parser")
+def getData_Invoice():
+    # 財政部官網
+    request_url = 'http://invoice.etax.nat.gov.tw/' 
+    # 取得HTML
+    htmlContent = urlopen(request_url).read()
+    soup = BeautifulSoup(htmlContent, "html.parser")
     results = soup.find_all("span", class_="t18Red")
-    table = soup.select_one('table.table_b')
-    # 讀取表格內容
-    content = []
-    for table_row in table.select('tr'):
-        colms = []
-        if table_row.select('th'):
-            colms.append(table_row.select_one('th').text)
-        else:
-            colms.append("")
-        colms.append(table_row.select_one('td').text)
-        content.append(colms)
-	
+    subTitle = ['特別獎', '特獎', '頭獎', '增開六獎'] # 獎項
     months = soup.find_all('h2', {'id': 'tabTitle'})
     # 最新一期
     month_newst = months[0].find_next_sibling('h2').text
     # 上一期
     month_previous = months[1].find_next_sibling('h2').text  
-   
-   # 取得號碼列
-    winNum = '' ; winNum1 = ''
-    for i in result[:4]:
-        winNum += content[i][0] + '｜' + i
-    for j in result[4:]:
-        winNum1 += content[j][0] + '｜' + i
-    return winNum, winNum1
+    this = ''
+    this += ("最新一期統一發票開獎號碼 ({0})：\n".format(month_newst))
+    for index, item in enumerate(results[:4]):
+        out = ('>> {0} : {1}\n'.format(subTitle[index], item.text)) 
+        this += out
+    last = ''
+    last += ("上期統一發票開獎號碼 ({0})：\n".format(month_previous))
+    for index2, item2 in enumerate(results[4:8]):
+        out1 = ('>> {0} : {1}\n'.format(subTitle[index2], item2.text)) 
+        last += out1
+    return this, last
 	
 def apple_news():
     target_url = 'https://tw.appledaily.com/new/realtime'
