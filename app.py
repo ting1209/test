@@ -30,7 +30,7 @@ def getData_Invoice():
     htmlContent = urlopen(request_url).read()
     soup = BeautifulSoup(htmlContent, "html.parser")
     results = soup.find_all("span", class_="t18Red")
-    subTitle = ['特別獎', '特獎', '頭獎', '增開六獎'] # 獎項
+    subTitle = soup.find_all("td", class_="title")
     months = soup.find_all('h2', {'id': 'tabTitle'})
     # 最新一期
     month_newst = months[0].find_next_sibling('h2').text
