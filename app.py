@@ -69,7 +69,7 @@ def free_news():
     soup = BeautifulSoup(res.text, 'html.parser')
     content = ""
 
-    for index, data in enumerate(soup.select('.tit')):
+    for index, data in enumerate(soup.select('.tit'), 0):
         if index >= 6:
             title = data.text
             link = data['href']
