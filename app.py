@@ -70,9 +70,10 @@ def free_news():
     content = ""
 
     for index, data in enumerate(soup.select('.tit'), 0):
-        title = data.text
-        link = data['href']
-        content += '{}\n{}\n\n'.format(title, link)
+        if index <= 5:
+		    title = data.text
+            link = target_url + data['href']
+            content += '{}\n{}\n\n'.format(title, link)
     return content
 	
 def panx():
