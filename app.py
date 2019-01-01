@@ -39,12 +39,12 @@ def getData_Invoice():
     this = ''
     this += ("最新一期統一發票開獎號碼 ({0})：\n".format(month_newst))
     for index, item in enumerate(results[:4]):
-        out = ('>> {0} : {1}\n'.format(subTitle[index], item.text)) 
+        out = ('>> {0} : {1}\n'.format(subTitle[index].text, item.text)) 
         this += out
     last = ''
     last += ("上期統一發票開獎號碼 ({0})：\n".format(month_previous))
     for index2, item2 in enumerate(results[4:8]):
-        out1 = ('>> {0} : {1}\n'.format(subTitle[index2], item2.text)) 
+        out1 = ('>> {0} : {1}\n'.format(subTitle[index2].text, item2.text)) 
         last += out1
     return this, last
 	
