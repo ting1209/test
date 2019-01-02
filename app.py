@@ -368,8 +368,8 @@ def handle_message(event):
                             action=MessageAction(label="上一期", text = last)
                         ),
                     ]))
-        template_message = TemplateSendMessage(alt_text='Buttons alt text', template=message)
-        line_bot_api.reply_message(event.reply_token, template_message)
+        text_message = TextSendMessage(text = message)
+        line_bot_api.reply_message(event.reply_token, text_message)
     elif text == "蘋果即時新聞":
         content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
