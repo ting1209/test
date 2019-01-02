@@ -356,7 +356,7 @@ def handle_message(event):
 
 
     if text == '發票':
-        this, last, lastlast = getData_Invoice()
+        this, last = getData_Invoice()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
