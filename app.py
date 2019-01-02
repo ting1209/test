@@ -352,20 +352,20 @@ def callback():
 def handle_message(event):
     text = event.message.text # 使用者傳的訊息存成變數 text
 
-    if  text == '發票':
-        buttons_template = ButtonsTemplate(
-            thumbnail_image_url='https://i.imgur.com/PtvI0GM.jpg',title='看看中獎不', text='選擇月份', actions=[
-                MessageAction(label='上一期發票號碼', text = '上個月發票號碼'),
-                MessageAction(label='最新一期發票號碼', text = '本月發票號碼'),
-            ])
-        template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
-        line_bot_api.reply_message(event.reply_token, template_message) # 送出訊息，訊息內容為'template_message'
-    elif text == '本月發票號碼':
+
+    if text == '發票':
         this, last = getData_Invoice()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=this))
-    elif text == '上個月發票號碼':
-        this, last = getData_Invoice()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=last))
+        message = TextSendMessage(text='想看哪一期?',
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=PostbackAction(label="最新一期發票號碼", text = this)
+                        ),
+                        QuickReplyButton(
+                            action=PostbackAction(label="上一期發票號碼", text=last)
+                        ),
+                    ]))
+        line_bot_api.reply_message(event.reply_token, message)
     elif text == "蘋果即時新聞":
         content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
