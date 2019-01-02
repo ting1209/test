@@ -409,7 +409,7 @@ def handle_message(event):
         for i in text:
             text1 += i
         out_invoice = getData_Invoice1(int(text1))
-        line_bot_api.reply_message(event.reply_token, text = out_invoice)		
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=out_invoice))		
     elif text == "蘋果即時新聞":
         content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
