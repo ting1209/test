@@ -364,10 +364,10 @@ def handle_message(event):
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=MessageAction(label="最新一期", displayText = this)
+                            action=MessageAction(label="最新一期", text = this)
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="上一期", displayText = last)
+                            action=MessageAction(label="上一期", text = last)
                         ),
                     ])))
 
