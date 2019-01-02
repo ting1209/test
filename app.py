@@ -357,19 +357,20 @@ def handle_message(event):
 
     if text == '發票':
         this, last = getData_Invoice()
-        message = TextSendMessage(
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(
                 text='想看哪一期呢?',
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=MessageAction(label="最新一期", text = this)
+                            action=PostbackAction(label="最新一期", displayText = this)
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="上一期", text = last)
+                            action=PostbackAction(label="上一期", displayText = last)
                         ),
-                    ]))
-        text_message = TextSendMessage(text = message)
-        line_bot_api.reply_message(event.reply_token, text_message)
+                    ])))
+
     elif text == "蘋果即時新聞":
         content = apple_news()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
