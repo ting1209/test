@@ -373,6 +373,7 @@ def handle_message(event):
                             action=DatetimePickerAction(label="其他",
                                                         data="data3",
                                                         mode="date")
+                        ),
                     ])))
 
     elif text == "蘋果即時新聞":
