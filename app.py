@@ -358,14 +358,14 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text='Quick reply',
+                text='想看哪一期呢?',
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=PostbackAction(label="label1", data="data1")
+                            action=PostbackAction(label="最新一期發票號碼", text = this)
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="label2", text="text2")
+                            action=MessageAction(label="上一期發票號碼", text= last)
                         ),
                         QuickReplyButton(
                             action=DatetimePickerAction(label="label3",
