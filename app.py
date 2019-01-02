@@ -37,7 +37,7 @@ def getData_Invoice():
     # 上一期
     month_previous = months[1].find_next_sibling('h2').text  
     # 上上一期
-    month_lastlast = month[2].find_next_sibling('h2').text
+    month_lastlast = months[2].find_next_sibling('h2').text
     this = ''
     this += ("({0})：\n".format(month_newst))
     for index, item in enumerate(results[:4]):
