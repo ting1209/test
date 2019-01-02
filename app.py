@@ -36,17 +36,24 @@ def getData_Invoice():
     month_newst = months[0].find_next_sibling('h2').text
     # 上一期
     month_previous = months[1].find_next_sibling('h2').text  
+    # 上上一期
+    month_lastlast = month[2].find_next_sibling('h2').text
     this = ''
-    this += ("最新一期統一發票開獎號碼 ({0})：\n".format(month_newst))
+    this += ("({0})：\n".format(month_newst))
     for index, item in enumerate(results[:4]):
         out = ('>> {0} : {1}\n'.format(subTitle[index].text, item.text)) 
         this += out
     last = ''
-    last += ("上期統一發票開獎號碼 ({0})：\n".format(month_previous))
+    last += ("({0})：\n".format(month_previous))
     for index2, item2 in enumerate(results[4:8]):
         out1 = ('>> {0} : {1}\n'.format(subTitle[index2].text, item2.text)) 
         last += out1
-    return this, last
+    lastlast = ''
+    lastlast += ("({0})：\n".format(month_lastlast))
+    for index3, item3 in enumerate(results[8:12]):
+        out2 = ('>> {0} : {1}\n'.format(subTitle[index3].text, item3.text)) 
+        lastlast += out2
+    return this, last, lastlast
 	
 def apple_news():
     target_url = 'https://tw.appledaily.com/new/realtime'
@@ -354,7 +361,7 @@ def handle_message(event):
 
 
     if text == '發票':
-        this, last = getData_Invoice()
+        this, last, lastlast = getData_Invoice()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
@@ -366,6 +373,9 @@ def handle_message(event):
                         ),
                         QuickReplyButton(
                             action=MessageAction(label="上一期", text= last)
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="上上一期", text= lastlast)
                         ),
                     ])))
     elif text == "蘋果即時新聞":
