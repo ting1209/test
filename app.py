@@ -364,10 +364,10 @@ def handle_message(event):
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=PostbackAction(label="最新一期", text = this)
+                            action=PostbackAction(label="最新一期", data = this)
                         ),
                         QuickReplyButton(
-                            action=PostbackAction(label="上一期", text= last)
+                            action=PostbackAction(label="上一期", data = last)
                         ),
                     ])))
     elif text == "蘋果即時新聞":
