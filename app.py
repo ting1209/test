@@ -364,10 +364,10 @@ def handle_message(event):
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=PostbackAction(label="最新一期", displayText = this)
+                            action=MessageAction(label="最新一期", displayText = this)
                         ),
                         QuickReplyButton(
-                            action=PostbackAction(label="上一期", displayText = last)
+                            action=MessageAction(label="上一期", displayText = last)
                         ),
                     ])))
 
@@ -459,9 +459,7 @@ def handle_message(event):
     elif text == '推薦':
         message = random_res_recommand()
         line_bot_api.reply_message(event.reply_token, message)
-    else:
-        message = TextSendMessage(text=event.message.text)
-        line_bot_api.reply_message(event.reply_token, message)
+
 
 
 if __name__ == "__main__":
