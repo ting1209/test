@@ -362,10 +362,10 @@ def handle_message(event):
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=PostbackAction(label="最新一期發票號碼", text = this)
+                            action=PostbackAction(label="最新一期", text = this)
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="上一期發票號碼", text= last)
+                            action=PostbackAction(label="上一期", text= last)
                         ),
                         QuickReplyButton(
                             action=DatetimePickerAction(label="label3",
