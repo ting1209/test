@@ -48,12 +48,8 @@ def getData_Invoice():
     for index2, item2 in enumerate(results[4:8]):
         out1 = ('>> {0} : {1}\n'.format(subTitle[index2].text, item2.text)) 
         last += out1
-    lastlast = ''
-    lastlast += ("({0})：\n".format(month_lastlast))
-    for index3, item3 in enumerate(results[8:12]):
-        out2 = ('>> {0} : {1}\n'.format(subTitle[index3].text, item3.text)) 
-        lastlast += out2
-    return this, last, lastlast
+
+    return this, last
 	
 def apple_news():
     target_url = 'https://tw.appledaily.com/new/realtime'
@@ -373,9 +369,6 @@ def handle_message(event):
                         ),
                         QuickReplyButton(
                             action=MessageAction(label="上一期", text= last)
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="上上一期", text= lastlast)
                         ),
                     ])))
     elif text == "蘋果即時新聞":
