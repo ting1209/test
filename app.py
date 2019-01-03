@@ -498,25 +498,11 @@ def handle_message(event):
         template_message = TemplateSendMessage(
             alt_text='Carousel alt text', template=carousel_template)
         line_bot_api.reply_message(event.reply_token, template_message)
-    elif text == 'image_carousel':
-        image_carousel_template = ImageCarouselTemplate(columns=[
-            ImageCarouselColumn(image_url='https://i.imgur.com/NrFOHGo.jpg',
-                                action=DatetimePickerAction(label='datetime',
-                                                            data='datetime_postback',
-                                                            mode='datetime')),
-            ImageCarouselColumn(image_url='https://via.placeholder.com/1024x1024',
-                                action=DatetimePickerAction(label='date',
-                                                            data='date_postback',
-                                                            mode='date'))
-        ])
-        template_message = TemplateSendMessage(
-            alt_text='ImageCarousel alt text', template=image_carousel_template)
-        line_bot_api.reply_message(event.reply_token, template_message)
     elif text == '推薦':
         message = random_res_recommand()
         line_bot_api.reply_message(event.reply_token, message)
     else:
-        answer = alarm()
+        answer = test()
         if answer == True:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='今天發票開獎囉~祝您中大獎'))
         else:
