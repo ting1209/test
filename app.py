@@ -21,7 +21,24 @@ from linebot.models import *
 
 from urllib.request import urlopen
 
+import datetime
+
 app = Flask(__name__)
+
+def alarm():
+    today =  datetime.date.today()
+    today = today.strftime('%y/%m/%d') ; today = list(today)
+    month = [1,3,5,7,9,11]
+    if (int(str(today[3])+str(today[4])) in month) and int(str(today[6])+str(today[7])) == 25:
+        return True	
+    return False
+	
+def test():
+    today =  datetime.date.today()
+    today = today.strftime('%y/%m/%d') ; today = list(today)
+    if str(today[6])+str(today[7]) == '03':
+        return True	
+    return False
 
 def getData_Invoice():
     # 財政部官網
@@ -403,6 +420,9 @@ def handle_message(event):
                         ),
 
                     ])))
+        answer = test()
+        if answer == True:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='該吃飯囉^^'))            
     elif '-' in text:
         text = list(text) ; text.pop(3)
         text1 = ''
@@ -498,7 +518,7 @@ def handle_message(event):
     elif text == '推薦':
         message = random_res_recommand()
         line_bot_api.reply_message(event.reply_token, message)
-
+        
 
 
 if __name__ == "__main__":
