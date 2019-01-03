@@ -516,10 +516,11 @@ def handle_message(event):
         message = random_res_recommand()
         line_bot_api.reply_message(event.reply_token, message)
     else:
-        answer = test()
+        answer = alarm()
         if answer == True:
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='該吃飯囉^^'))
-        
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='今天發票開獎囉~祝您中大獎'))
+        else:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='再忙也要記得吃飯喔'))
 
 
 if __name__ == "__main__":
