@@ -419,10 +419,7 @@ def handle_message(event):
                             action=MessageAction(label="其他", text = '請輸入民國年與當期第一月月份:\n(格式範例:107-09, 106-03)')
                         ),
 
-                    ])))
-        answer = test()
-        if answer == True:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='該吃飯囉^^'))            
+                    ])))            
     elif '-' in text:
         text = list(text) ; text.pop(3)
         text1 = ''
@@ -518,6 +515,10 @@ def handle_message(event):
     elif text == '推薦':
         message = random_res_recommand()
         line_bot_api.reply_message(event.reply_token, message)
+    else:
+        answer = test()
+        if answer == True:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='該吃飯囉^^'))
         
 
 
