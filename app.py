@@ -36,7 +36,7 @@ def alarm():
 def test():
     today =  datetime.date.today()
     today = today.strftime('%y/%m/%d') ; today = list(today)
-    if str(today[6])+str(today[7]) == '04':
+    if str(today[6])+str(today[7]) == '03':
         return True	
     return False
 
